@@ -28,7 +28,10 @@ app.set('views', __dirname + '/pages');
 app.engine('html', require('ejs').renderFile);
 
 app.set('view engine', 'html');
-// app.use(flash());
+app.use(flash());
+
+ 
+
 
 
 // create connection
@@ -67,7 +70,7 @@ app.get('/', function(req, res) {
 app.post('/login/', (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
-
+    
     if (username && password) {
 
         con.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
@@ -111,11 +114,11 @@ console.log('Website Sever Is Running on Port 3000. Access via LOCALHOST:3000');
 
 
 // flash message
-app.use((req, res, next) => {
-    res.locals.message = req.session.message
-    delete req.session.messages
-    next()
-})
+// app.use((req, res, next) => {
+//     res.locals.message = req.session.message
+//     delete req.session.messages
+//     next()
+// })
 
 // store user input on post request
 // START REGISTER FORM
@@ -135,8 +138,8 @@ app.post('/register', function(req, res) {
     console.log(password)
     console.log(confirm_password)
 
-    con.query('SELECT * FROM Users WHERE email = ?', [email], function(err, results, fields) {
-        if (err) throw err
+    con.query('SELECT * FROM Accounts WHERE email = ?', [email], function(err, results, fields) {
+        if (err) throw err 
         if(results.length > 0) {
             req.session.message = {
                 type: 'warnning',
@@ -156,7 +159,7 @@ app.post('/register', function(req, res) {
             res.redirect('/');
         } else {
             // save dato into the database 
-            con.query(`INSERT INTO Users (firstname, lastname, email, username, createdDT) VALUES ("${firstname}", "${lastname}","${email}", "${username}", NOW())`, function (err, results) {
+            con.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
             if (err) throw err;
             req.session.message = {
                 type: 'success',
