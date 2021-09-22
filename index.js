@@ -183,33 +183,22 @@ app.get('/courses', function(req, res) {
     }
 });
 
-// var courseID = 02;
-// let http = require('http');
-// function CreateNewCourse() {
-
-//     var course_name = document.getElementById("course");
-//     function CreateNewCourse() {
-//         con.connect(function(err) {
-//             if (err) throw err;
-//             con.query("INSERT INTO Courses (courseName, accountID) VALUES (course_name, accountID)", function (err, result, fields) {
-//             if (err) throw err;
-//             console.log(result);
-//             });
-//         });
-//     }
-// }
-// var course_name = "CIS425"
-
-// var accountID = 02
-// con.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!")
-//     let sqlQuery = `INSERT INTO Courses (courseName, courseID, accountID) VALUES ("${course_name}" , "${courseID}" , "${accountID}")`
-//     con.query(sqlQuery, function (err, result) {
-//       if (err) throw err;
-//       console.log("1 row inserted");
-//     });
-//   });
+// create a new course
+app.post('/createcourses', function(req, res) {
+    if (req.session.loggedin) {
+        let courses =  req.body.courses;
+      
+        con.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${courses}", ${user_accountID})`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Course Inserted");
+                res.render('courses.html');
+            }
+        })
+    }
+});
 
 // // END @DYLAN PART
 
