@@ -26,6 +26,7 @@ app.use(express.static(__dirname));
 
 app.set('views', __dirname + '/pages');
 app.engine('html', require('ejs').renderFile);
+
 app.set('view engine', 'html');
 // app.use(flash());
 
@@ -137,7 +138,6 @@ app.post('/register', function(req, res) {
     con.query('SELECT * FROM Users WHERE email = ?', [email], function(err, results, fields) {
         if (err) throw err
         if(results.length > 0) {
-            // window.alert("Email was existed already");
             req.session.message = {
                 type: 'warnning',
                 intro: 'Email was existed already',
@@ -147,7 +147,6 @@ app.post('/register', function(req, res) {
             console.log('Email was existed already');
         }
         else if (confirm_password != password) {
-            // window.alert("Incorrect email or password");
             req.session.message = {
                 type: 'danger',
                 intro: 'Password do not match',
@@ -166,6 +165,7 @@ app.post('/register', function(req, res) {
             }
                 console.log('record inserted')
             });
+            res.redirect('/');
         }
     })
 })
