@@ -177,14 +177,12 @@ app.post('/register', function(req, res) {
 
 // // START @DYLAN PART
 // // display courses page
-// app.get('/courses', function(req, res) {
-//     if (req.session.loggedin) {
-//         res.render('courses.html');
-//     }
-//     else {
-//         res.redirect('/')
-//     }
-// });
+app.get('/courses', function(req, res) {
+    if (req.session.loggedin) {
+        res.render('courses.html');
+    }
+});
+
 // var courseID = 02;
 // let http = require('http');
 // function CreateNewCourse() {
