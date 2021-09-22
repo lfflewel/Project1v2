@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="styles.css">
+      <title>Course Selector</title>
+	  <style>
+		  select
+{
+    min-width: 300px;
+    font-size: 25px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+label
+{
+    font-size: 25px;
+    
+}
+
+#button {
+    width: 6em;
+    border: 2px solid green;
+    background: #ffe;
+    border-radius: 5px;
+}
+a {
+    display: block;
+    width: 100%;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+a:hover {
+    color: red;
+    background: #eff;
+}
+
+input {
+    min-width: 400px;
+    display: block;
+    margin: 20px;
+    padding: 15px 20px;
+    background-color: #ece7e7;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    box-shadow: 15px 15px 25px #a8a8a8;
+    transition: box-shadow 0.5s;
+}
+
+    input:focus {
+        box-shadow: 5px 5px 15px #a8a8a8;
+    }
+
+.form .btn {
+    margin: auto;
+    padding: 10px 35px;
+    background-color: #04AA6D;
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    border-radius: 10px;
+    box-shadow: 15px 15px 20px #a8a8a8;
+    transition: box-shadow 0.5s;
+    outline: none;
+    cursor: pointer;
+}
+
+    .form .btn:hover {
+        box-shadow: 5px 5px 15px #aaa;
+    }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 50%;
+    width: 50vw;
+    position: absolute;
+    bottom: 0px;
+    font-size: 35px;
+}
+
+	</style>
+    </head>
+
+    <a href="home_page.html">Home</a>
+    <body>
+        <main>
+
+            <section>
+
+
+                <h1>Course Creator</h1>
+
+                <form action>
+
+                    <p>Welcome! Please select a course or create a new one!</p>
+                    
+                    <label id="course_name" for="course">Course Name</label>
+                    <input type="text" id="course">
+                        
+                    <button type="button" onclick="CreateNewCourse()">Create New Course</button>
+					
+                </form>
+
+            </section>
+
+        </main>
+
+		<script src="index.js"></script>
+    </body>
+
+</html>

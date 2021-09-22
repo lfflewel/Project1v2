@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Account</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    {{#if message}}
+    <div stype ="text-align: center" class="alert alert-{{message.type}}">
+        <button type="button" name="close" data-dismiss="alert">&times</button>
+        <strong>{{message.intro}}</strong> {{message.message}}
+    </div>
+
+    <div class="container">
+         <!--LOGIN SECTION-->
+        <section id="login-section" class="desktop">
+            <div class="cover-container" id="loginCover">
+                <h1>Welcome !</h1>
+                <h3>Already have an account ?</h3>
+                <button type="button" class="switch-btn" onclick="toggleLoginSignup('login')">Login</button>
+            </div>
+            <div class="form-container hide" id="loginForm">
+                <h1>Login</h1>
+                <form action="/login" method="POST">
+                    <input type="text" name="username" class="input-box" placeholder="User Name">
+                    <input type="password" name="password" class="input-box" placeholder="Password">
+                    <input type="submit" name="login-btn" class="btn" value="Login">
+                </form>
+            </div>
+        </section>
+
+        <!--SIGN UP SECTION-->
+       
+      
+        <section id="signup-section" class="desktop">
+            <div class="cover-container hide" id="signupCover">
+                <h1>Welcome!</h1>
+                <h3>Don't have an account ?</h3>
+                <button type="button" class="switch-btn" onclick="toggleLoginSignup('signup')">Sign Up</button>
+            </div>
+            <div class="form-container" id="signupForm">
+                <h1>Signup</h1>
+                <form action="/register" method="post">
+                    <input type="text" name="firstname" class="input-box" placeholder="First Name">
+                    <input type="text" name="lastname" class="input-box" placeholder="Last Name">
+                    <input type="text" name="username" class="input-box" placeholder="User Name">
+                    <input type="email" name="email" class="input-box" placeholder="Email">
+                    <input type="password" name="password" class="input-box" placeholder="Password">
+                    <input type="password" name="confirm_password" class="input-box" placeholder="Confirm Password">
+                    <input type="submit" name="signup-btn" class="btn" value="Sign Up">
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <section class="mobile">
+    </section>
+    <script src="clientSide.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

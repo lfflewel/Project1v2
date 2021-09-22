@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASH BOARD</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        html, body {
+            height: 100%;
+        }
+        body {
+            background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
+            margin: 0;
+        }
+        p {
+            margin-bottom: 0;
+            font-family: 'Montserrat-Thin', sans-serif;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        /* Start Aside */
+        aside {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-x: hidden;
+        }
+
+            aside .navigation-bar ul li {
+                margin-bottom: 20px;
+                padding: 20px;
+                text-align: center;
+            }
+
+            aside .navigation-bar ul li a {
+                color: #2D8CCA;
+                font-size: 20px;
+            }
+
+            aside .navigation-bar ul li a i {
+                font-size: 1.6em;
+            }
+
+            aside .navigation-bar ul li a:hover {
+                color: #193b68;
+            }
+        /* End Aside */
+    </style>
+
+</head>
+<body>
+    <main>
+        <div class="row">
+            <div>
+                <aside>
+                    <div class="navigation-bar">
+                        <ul class="list-unstyled">
+                            <li><a href="/homepage"><i class="home"></i><br>HOME</a></li>
+                            <li><a href="/courses"><i class="button"></i>New Course</a></li>
+                            <li><a href="/logout"><i class="sign-out"></i><br>LOGOUT</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>  
+        </div>
+        
+    </main>
+    <script src="index.js"></script> 
+</body>
+</html>
