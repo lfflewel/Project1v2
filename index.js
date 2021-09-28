@@ -1,4 +1,3 @@
-
 // constants to run project with Node.js and express Js
 const express = require('express');
 const app = express();
@@ -7,8 +6,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
-// other variables
+// OTHER VARIABLES
 let user_accountID;
+let user_courseID;
+
 
 // message
 const cookieParser = require('cookie-parser')
@@ -27,7 +28,7 @@ app.use(session({
  //In order to serve static css stylesheet
 app.use(express.static(__dirname));
 
-app.set('views', __dirname + '/pages');
+app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
 app.set('view engine', 'html');
@@ -83,7 +84,9 @@ app.post('/login/', (req, res) => {
                 console.log(req.body.password);
                 req.session.loggedin = true;
                 req.session.username = username;
+                console.log(results);
                 user_accountID = results[0].accountID;
+                console.log(user_accountID);
                 res.redirect('/homepage');
             } else {
                 res.send('Incorrect Username and/or Password!');
@@ -178,19 +181,28 @@ app.post('/register', function(req, res) {
 })
 // END REGISTER FORM
 
-
-// // START @DYLAN PART
-// // display courses page
+// // DISPLAY COURSE PAGE & DROPDOWN LIST
 app.get('/courses', function(req, res) {
     if (req.session.loggedin) {
-        res.render('courses.html');
-    }
-});
+        con.query(`SELECT courseName FROM Courses WHERE accountID= ?`, [user_accountID], function(err, results) {
+            if (err) throw err;
+            courses = [];
+            (results).forEach(x => {
+                courses.push(x.courseName);
+            });
+            console.log(courses)
 
-// create a new course
+            res.render('courses.html', {courses});
+    });
+    
+}
+})
+
+
+// CREATE A NEW COURSE
 app.post('/createcourses', function(req, res) {
     if (req.session.loggedin) {
-        let courses =  req.body.courses;
+        let courses =  req.body.course;
       
         con.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${courses}", ${user_accountID})`, function (err, results) {
             if (err) {
@@ -204,19 +216,52 @@ app.post('/createcourses', function(req, res) {
     }
 });
 
-// // END @DYLAN PART
+// // DISPLAY A DECK PAGE
+// // app.get('/decks', function(req, res) {
+// //     if (req.session.loggedin) {
+// //         res.render('decks.html');
+// //     }
+// // })
 
-// // START @WUnder part
-// con.connect(function (err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-//     let sql = "INSERT INTO terms VALUES ('SCRUM', 'Agile')";
-//     con.query(sql, function (err, result) {
-//         if (err) throw err;
-//         console.log("1 record inserted");
-//     });
+// // CREATE A NEW DECK
+// app.post('/getDecks', function(req,res) {
+//     if (req.session.loggedin) {
+//         let selectedCourse = req.body.selectedCourse;
+//         console.log(`selected Course:`, selectedCourse);
+
+//         con.query(`SELECT courseID FROM Courses WHERE courseName = ?`, "${selectedCourse}", function (err, results) {
+//             if (err) {
+//                 res.render('course.html');
+//             }
+//             else {
+//                 console.log(`result of getdeck:`, results)
+//                 let user_courseID = results[0].courseID;
+//                 console.log(user_courseID);
+
+//                 con.query(`SELECT deckName FROM Decks WHERE courseID = ?`, [user_courseID], function(err, results) {
+//                     if (err) throw err;
+//                     console.log(results)
+//                     console.log(results[0].deckName);
+//                     res.render('decks.html', {deckName: results[0].deckName})
+//                 })
+//             }
+//         })
+//     }
 // })
-// END Wunder part
 
-
-
+// app.post('/createdecks', function(req, res) {
+//     if (req.session.loggedin) {
+//         let decks =  req.body.decks;
+      
+//         con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${decks}", ${user_courseID})`, function (err, results) {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             else {
+//                 console.log("Decks Inserted");
+            
+//                 res.render('decks.html');
+//             }
+//         })
+//     }
+// });
