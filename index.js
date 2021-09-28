@@ -28,7 +28,7 @@ app.use(session({
  //In order to serve static css stylesheet
 app.use(express.static(__dirname));
 
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/pages');
 app.engine('html', require('ejs').renderFile);
 
 app.set('view engine', 'html');
