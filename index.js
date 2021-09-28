@@ -9,7 +9,8 @@ const session = require('express-session');
 // OTHER VARIABLES
 let user_accountID;
 let user_courseID;
-
+let user_cardID;
+let user_deckID;
 
 // message
 const cookieParser = require('cookie-parser')
