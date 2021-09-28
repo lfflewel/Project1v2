@@ -7,6 +7,9 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
+// other variables
+let user_accountID;
+
 // message
 const cookieParser = require('cookie-parser')
 const flash  = require('connect-flash');
@@ -80,6 +83,7 @@ app.post('/login/', (req, res) => {
                 console.log(req.body.password);
                 req.session.loggedin = true;
                 req.session.username = username;
+                user_accountID = results[0].accountID;
                 res.redirect('/homepage');
             } else {
                 res.send('Incorrect Username and/or Password!');
