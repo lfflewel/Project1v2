@@ -57,24 +57,47 @@
                 color: #193b68;
             }
         /* End Aside */
+
+        /* Start Main */
+        h1 {
+            margin: auto;
+        }
+
+        /* End Main */ 
     </style>
+    <script type=text/jstl></script>
 
 </head>
 <body>
-    <main>
-        <div class="row">
-            <div>
-                <aside>
-                    <div class="navigation-bar">
-                        <ul class="list-unstyled">
-                            <li><a href="/homepage"><i class="home"></i><br>HOME</a></li>
-                            <li><a href="/courses"><i class="button"></i>New Course</a></li>
-                            <li><a href="/logout"><i class="sign-out"></i><br>LOGOUT</a></li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>  
-        </div>
+    <div class="row">
+        <aside>
+            <div class="navigation-bar">
+                <ul class="list-unstyled">
+                    <li><a href="/homepage"><i class="home"></i><br>HOME</a></li>
+                    <li><a href="/courses"><i class="button"></i>New Course</a></li>
+                    <li><a href="/logout"><i class="sign-out"></i><br>LOGOUT</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>  
+    <div>
+        <main>
+            <section class="dashboard-info">
+                <h1 id="heading">HOME</h1>
+                
+                <form action="/getDecks" method="POST">
+                    
+                    <select id="selectedCourse" name="selectedCourse" onchange="this.form.submit()">
+                        <option value="0">Select Course</option>
+                        <% for (var i=0; i < courses.length; i++) { %>
+                            <option value="<%= courses[i] %>"><%= courses[i] %></option>
+                        <% } %>    
+                    </select>
+                </form>
+            </section>
+        </main>
+    </div>
+   
         
     </main>
     <script src="index.js"></script> 
