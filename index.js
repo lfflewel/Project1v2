@@ -190,6 +190,7 @@ app.post('/register', function(req, res) {
         if (err) throw err;
 
         if(results.length > 0) {
+            // TODO: Will find solutions to populate validation messages on HTML
             req.session.message = {
                 type: 'warnning',
                 intro: 'Email was existed already',
