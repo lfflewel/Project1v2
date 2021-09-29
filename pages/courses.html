@@ -42,11 +42,7 @@ body {
         }
 
 	</style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type=text/jstl></script>
+   
 </head>
 
     <a href="/homepage">Home</a>
@@ -57,7 +53,7 @@ body {
                 <h1>Course Creator</h1>
                     <p>Welcome! Please select a course or create a new course!</p>
                         <form action="/createcourses" method="POST">
-                            <h3>Deckname</h3>
+                            <h3>Course Name</h3>
                             <textarea name ="course" id="course"></textarea>
                             <br>
                             <nav>
@@ -68,22 +64,7 @@ body {
                             </nav>
                         </form>        
             </section>
-            <section>
-                <div class="dropdown show">
-                    <a class="btn btn-secondary dropdown-toggle" href="/decks" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Course
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <% for (var i=0; i < courses.length; i++) { %>
-                            <form action="/getDecks" id="selectedCourse" name="selectedCourse" method="POST">
-                                <a class="dropdown-item" type="button" onclick="document.getElementById('selectedCourse').submit();"><%= courses[i] %></a>
-                            
-                                <input type="hidden" name="selectedCourse" value="<%= courses[i] %>">
-                        </form>  
-                        <% } %>    
-                    </div>
-                  </div>
-            </section>
+            
 
         </main>
 
