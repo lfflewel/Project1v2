@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>DASH BOARD</title>
     <style>
         * {
@@ -30,6 +31,37 @@
             margin: 0;
             padding: 0;
         }
+
+        .body-container{
+            width: 80%;
+            box-shadow: 0px 0px 45px #a8a8a8;
+            border-radius: 30px;
+            height: 93vh;
+            margin: auto;
+            font-size: 50px;
+        }
+
+        #welcomeText{
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+        }
+
+        select{
+            margin-top: 45.5vh;
+            display: block;
+            margin-right: 20vw;
+            font-size: 25px;
+            text-align: center;
+        }
+
+        select:hover{
+            background-color: #f3dcff;
+        }
+
+
         /* Start Aside */
         aside {
             top: 0;
@@ -38,23 +70,44 @@
             overflow-x: hidden;
         }
 
-            aside .navigation-bar ul li {
-                margin-bottom: 20px;
-                padding: 20px;
-                text-align: center;
+            aside .navigation-container{
+                width: 80%;
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0px 0px 45px #a8a8a8;
+                border-radius: 30px;
+                height: 5vh;
+                margin: auto;
             }
 
-            aside .navigation-bar ul li a {
-                color: #2D8CCA;
-                font-size: 20px;
+            aside .navigation-bar{
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                width: 20%;
+                flex-direction: row;
+                box-shadow: 0px 0px 45px #a8a8a8;
+                border-radius: 30px;
+                height: 10vh;
+                margin: auto;
+                float: center;
             }
 
-            aside .navigation-bar ul li a i {
-                font-size: 1.6em;
+            aside .navigation-buttons{
+                margin: auto;
+                padding: 10px 20px;
+                background-color: #04AA6D;
+                color: #fff;
+                border: none;
+                font-size: 2vh;
+                border-radius: 2vh;
+                box-shadow: 15px 15px 20px #a8a8a8;
+                transition: box-shadow 0.5s;
+                outline: none;
+                cursor: pointer;
             }
 
-            aside .navigation-bar ul li a:hover {
-                color: #193b68;
+            aside .navigation-buttons:hover{
+                background-color: #f1a566;
             }
         /* End Aside */
 
@@ -69,21 +122,19 @@
 
 </head>
 <body>
-    <div class="row">
+    <div>
         <aside>
-            <div class="navigation-bar">
-                <ul class="list-unstyled">
-                    <li><a href="/homepage"><i class="home"></i><br>HOME</a></li>
-                    <li><a href="/courses"><i class="button"></i>New Course</a></li>
-                    <li><a href="/logout"><i class="sign-out"></i><br>LOGOUT</a></li>
-                </ul>
+            <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
+                <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Create new course</button>
+                <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
             </div>
         </aside>
     </div>  
     <div>
         <main>
-            <section class="dashboard-info">
-                <h1 id="heading">HOME</h1>
+            <section class="body-container">
+                <h1 id="welcomeText">Welcome! Please select a course or create a new course!</h1>
+                <h1>Course Selection</h1>
                 
                 <form action="/getDecks" method="POST">
                     
