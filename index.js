@@ -350,3 +350,78 @@ app.post('/createDecks', function(req, res) {
     }
 });
 /* ----------------------------------------------------------- */
+
+
+
+// this code works ( create new deck & dropdown list)
+/* -- DECK PAGE ---------------------------------------------- */
+
+// // This is when we select the course in the dropdown list in homepage.html ---> redirect to deck of specified course
+
+// app.post('/getDecks', function(req,res) {
+//     if (req.session.loggedin) {
+//         let selectedCourse = req.body.selectedCourse;
+//         console.log(`selected Course:`, selectedCourse);
+
+//         con.query(`SELECT courseID FROM Courses WHERE courseName = ?`, [selectedCourse], function (err, results) {
+//             if (err) {
+//                 res.render('/courses');
+//             }
+//             else {
+                
+//                 userCourseID = results[0].courseID;
+//                 console.log(userCourseID);
+                
+//                 // this is when we select the deck in the dropdown list in decks.html 
+                
+//                 res.redirect('/decks');
+//             }
+
+//         })
+//     }
+// });
+
+
+// app.post('/createDecks', function(req, res) {
+//     if (req.session.loggedin) {
+//         let newDeck =  req.body.newDeck;
+      
+//         con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${newDeck}", ${userCourseID})`, function (err, results) {
+//             if (err) {
+//                 console.log(err);
+//             }
+//             else {
+//                 console.log("Decks Inserted");
+//                 decks.push(newDeck)
+                
+                
+//                 res.redirect('/decks');
+//             }
+           
+//         })
+
+//     }
+// });
+
+// app.get('/decks', function(req,res) {
+    
+//     con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
+//         if (err) throw err;
+
+//         decks =[];
+//         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
+//         (results).forEach(x => {
+//             decks.push(x.deckName);
+//         });
+
+//         console.log(decks);
+
+//         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
+//         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
+//         res.render('decks.html', {decks});
+//     })
+// })
+
+
+
+// /* ----------------------------------------------------------- */
