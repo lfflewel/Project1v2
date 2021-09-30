@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="styles.css">
+      <title>Card Creation</title>
+	  <style>
+body {
+            background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
+            background-repeat:no-repeat;
+        }
+        
+        h1, h3 {
+            font-size: 25px;
+            text-align: center;
+        }
+        p {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        input {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            }
+        
+        nav ul {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+        }
+
+        textarea {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding-right: 100px;
+        }
+
+	</style>
+   
+</head>
+
+    <a href="/homepage">Home</a>
+    <body>
+        <main>
+
+            <section>
+                <h1>Card Question</h1>
+                    <p>Welcome! Please select a deck or create a new deck!</p>
+                        <form action="/createcards" method="POST">
+                            <h3>Card Name</h3>
+                            <textarea name ="cards" id="cards"></textarea>
+                            <br>
+                            <nav>
+                                <ul>
+                                    <li><input type="submit" name="createcards" value="Create New Card"></li> 
+                                
+                                </ul>
+                            </nav>
+                        </form>        
+            </section>
+            
+
+        </main>
+
+		<script src="index.js"></script>
+    </body>
+
+</html>
