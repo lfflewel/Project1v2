@@ -28,6 +28,20 @@ body {
             display: flex;
             }
         
+        input[type=submit] {
+            margin: auto;
+            padding: 10px 170px;
+            background-color: #04AA6D;
+            color: #fff;
+            border: none;
+            font-size: 25px;
+            border-radius: 10px;
+            box-shadow: 15px 15px 20px #a8a8a8;
+            transition: box-shadow 0.5s;
+            outline: none;
+            cursor: pointer;
+            }    
+        
         nav ul {
             display: flex;
             justify-content: space-between;
@@ -41,26 +55,64 @@ body {
             padding-right: 100px;
         }
 
+        .body-container{
+            width: 80%;
+            box-shadow: 0px 0px 45px #a8a8a8;
+            border-radius: 30px;
+            height: 93vh;
+            margin: auto;
+            font-size: 50px;
+        }
+
+        .navigation-container{
+                width: 80%;
+                display: flex;
+                flex-direction: row;
+                box-shadow: 0px 0px 45px #a8a8a8;
+                border-radius: 30px;
+                height: 5vh;
+                margin: auto;
+            }
+
+            .navigation-buttons{
+                margin: auto;
+                padding: 10px 20px;
+                background-color: #04AA6D;
+                color: #fff;
+                border: none;
+                font-size: 2vh;
+                border-radius: 2vh;
+                box-shadow: 15px 15px 20px #a8a8a8;
+                transition: box-shadow 0.5s;
+                outline: none;
+                cursor: pointer;
+            }
+
+            .navigation-buttons:hover{
+                background-color: #f1a566;
+            }
+
 	</style>
    
 </head>
 
-    <a href="/homepage">Home</a>
+    <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
+    <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
+    <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
+    <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
+    </div>
     <body>
         <main>
 
-            <section>
+            <section class="body-container">
                 <h1>Deck Creator</h1>
-                    <p>Welcome! Please select a deck or create a new deck!</p>
+                    <p>To create a deck for the selected course, type the deck name in the field below and click the create deck button</p>
                         <form action="/createdecks" method="POST">
                             <h3>Deck Name</h3>
                             <textarea name ="decks" id="decks"></textarea>
                             <br>
                             <nav>
-                                <ul>
-                                    <li><input type="submit" name="createdecks" value="Create New Deck"></li> 
-                                
-                                </ul>
+                                <input type="submit" name="createdecks" value="Create New Deck">
                             </nav>
                         </form>        
             </section>
