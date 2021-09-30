@@ -61,6 +61,7 @@ let userAccountID;
 let userCourseID;
 let userDeckID;
 let userCardID;
+let decks;
 
 /* ----------------------------------------------------------- */
 
