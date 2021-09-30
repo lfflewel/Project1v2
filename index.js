@@ -325,27 +325,14 @@ app.post('/getDecks', function(req,res) {
 // this create decks method, retrieve new deck's ID, and store it as userDeckID - WORKS
 app.post('/createDecks', function(req, res) {
     if (req.session.loggedin) {
-        let decks =  req.body.decks;
-
-        con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${decks}", ${userCourseID});`, function (err, results) {
+        let decks =  req.body.decks;        con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${decks}", ${userCourseID});`, function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
-                //reconnect to get new deck's ID and save it to userDeckID
-                con.query(`SELECT LAST_INSERT_ID();`, function (err, results) {
-                    if (err){
-                        console.log(err);
-                    }
-                    else {
-                        userDeckID = results
-                        console.log("Decks Inserted");
-                        console.log(userDeckID);
-                    
-                        res.render('decks.html');
-                    }
-
-                })
+                        userDeckID = results.insertId
+                        console.log("Deck " + decks + " Inserted");
+                        console.log("deckId: " + userDeckID);                        res.render('decks.html');
            }
         })
     }
