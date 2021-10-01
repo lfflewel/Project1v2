@@ -107,14 +107,25 @@ body {
             <section class="body-container">
                 <h1>Deck Creator</h1>
                     <p>To create a deck for the selected course, type the deck name in the field below and click the create deck button</p>
-                        <form action="/getCards" method="POST">
-                        <select id="selectedDeck" name="selectedDeck" onchange="this.form.submit()">
-                            <option value="0">Select Deck</option>
-                            <% for (var i=0; i < decks.length; i++) { %>
-                                <option value="<%= decks[i] %>"><%= decks[i] %></option>
-                            <% } %>    
-                        </select>
-                    </form>       
+                        <form action="/createdecks" method="POST">
+                            <h3>Deck Name</h3>
+                            <textarea name ="newDeck" id="decks"></textarea>
+                            <br>
+                            <nav>
+                                <input type="submit" name="createdecks" value="Create New Deck">
+                            </nav>
+                        </form>        
+            </section>
+            <section class="dropdown-info">
+                <form action="/getCards" method="POST">
+                    
+                    <select id="selectedDeck" name="selectedDeck" onchange="this.form.submit()">
+                        <option value="0">Select Deck</option>
+                        <% for (var i=0; i < decks.length; i++) { %>
+                            <option value="<%= decks[i] %>"><%= decks[i] %></option>
+                        <% } %>    
+                    </select>
+                </form>
             </section>
             
 
