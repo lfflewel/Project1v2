@@ -289,11 +289,6 @@ app.post('/createcourses', function(req, res) {
 /* -- DECK PAGE ---------------------------------------------- */
 
 // DISPLAY A DECK PAGE
-app.get('/decks', function(req, res) {
-    if (req.session.loggedin) {
-        res.render('decks.html');
-    }
-});
 
 // This is when we select the course in the dropdown list in homepage.html ---> redirect to deck of specified course
 app.post('/getDecks', function(req,res) {
@@ -308,16 +303,11 @@ app.post('/getDecks', function(req,res) {
             else {
                 
                 userCourseID = results[0].courseID;
-                console.log(userCourseID);
-                res.render('decks.html')
-
-                // con.query(`SELECT deckName FROM Decks WHERE courseID = ?`, [userCourseID], function(err, results) {
-                //     if (err) throw err;
-                //     console.log(results)
-                //     console.log(results[0].deckName);
-                //     res.render('decks.html', {deckName: results[0].deckName})
-                // })
+                console.log(`User CourseID : ${userCourseID}`);
+                
+                res.redirect('/decks');
             }
+
         })
     }
 });
@@ -325,91 +315,124 @@ app.post('/getDecks', function(req,res) {
 // this create decks method, retrieve new deck's ID, and store it as userDeckID - WORKS
 app.post('/createDecks', function(req, res) {
     if (req.session.loggedin) {
-        let decks =  req.body.decks;        con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${decks}", ${userCourseID});`, function (err, results) {
-            if (err) {
-                console.log(err);
+        let newDeck =  req.body.newDeck;
+        console.log(newDeck);
+
+        let alreadyExists = false;
+
+        decks.forEach(x => {
+            if (x == newDeck)
+            {
+                alreadyExists = true;
             }
-            else {
-                        userDeckID = results.insertId
-                        console.log("Deck " + decks + " Inserted");
-                        console.log("deckId: " + userDeckID);                        res.render('decks.html');
-           }
-        })
+        });
+
+        if (!alreadyExists)
+        {
+            con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${newDeck}", ${userCourseID})`, function (err, results) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    userDeckID = results.insertId
+                    console.log(`DeckID : ${userDeckID}`);    
+                    console.log("Decks Inserted");
+                    console.log(newDeck);
+                    decks.push(newDeck);
+    
+                    res.redirect('/decks');
+                    
+                }
+               
+            })
+        }
+        else {
+            res.send('FAILED');
+        }
     }
 });
+
+app.get('/decks', function(req,res) {
+    
+    con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
+        if (err) throw err;
+        console.log(`Deck Results: ${results}`)
+        decks =[];
+        // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
+        (results).forEach(x => {
+            decks.push(x.deckName);
+        });
+
+        console.log(decks);
+
+        // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
+        // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
+        res.render('decks.html', {decks});
+    })
+})
+
+
+
 /* ----------------------------------------------------------- */
 
 
 
-// this code works ( create new deck & dropdown list)
-/* -- DECK PAGE ---------------------------------------------- */
+/* -- CARD PAGE ---------------------------------------------- */
+// TODO: Check MW file
+// this get card method
+app.post('/getCards', function(req,res) {
+    if (req.session.loggedin) {
+        let selectedDeck = req.body.selectedDeck;
+        console.log(`Selected Deck:`, selectedDeck);
 
-// // This is when we select the course in the dropdown list in homepage.html ---> redirect to deck of specified course
-
-// app.post('/getDecks', function(req,res) {
-//     if (req.session.loggedin) {
-//         let selectedCourse = req.body.selectedCourse;
-//         console.log(`selected Course:`, selectedCourse);
-
-//         con.query(`SELECT courseID FROM Courses WHERE courseName = ?`, [selectedCourse], function (err, results) {
-//             if (err) {
-//                 res.render('/courses');
-//             }
-//             else {
-                
-//                 userCourseID = results[0].courseID;
-//                 console.log(userCourseID);
-                
-//                 // this is when we select the deck in the dropdown list in decks.html 
-                
-//                 res.redirect('/decks');
-//             }
-
-//         })
-//     }
-// });
+        con.query(`SELECT deckID FROM Decks WHERE deckName = ?`, [selectedDeck], function (err, results) {
+            if (err) {
+                res.render('decks.html');
+            }
+            else {
+            
+                con.query(`SELECT cardID FROM Decks_Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
+                    console.log(results)
+                    userCardID = results[0].cardID;
+                    console.log(userCardID)
+                    res.render('cards.html')
+                })
+                res.render('cards.html')
+            }
+        })
+    }
+})
 
 
-// app.post('/createDecks', function(req, res) {
-//     if (req.session.loggedin) {
-//         let newDeck =  req.body.newDeck;
-      
-//         con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${newDeck}", ${userCourseID})`, function (err, results) {
-//             if (err) {
-//                 console.log(err);
-//             }
-//             else {
-//                 console.log("Decks Inserted");
-//                 decks.push(newDeck)
-                
-                
-//                 res.redirect('/decks');
-//             }
+// display flashcard page
+
+app.get('/createcards', function(err, results) {
+    if (req.session.loggedin) {
+        res.render('cards.html');
+    }
+});
+
+// flashcard method ---->>> Still has error
+
+app.post('/createcards', function(err, results) {
+    if (req.session.loggedin) {
+        let question = req.body.question;
+        let answer = req.body.answer;
+
+        console.log(`Question: ${question}`)
+        console.log(`Answer: ${answer}`)
+        con.query(`INSERT INTO cards (cardQuestion, cardAnswer, deckID) VALUES ("${question}", "${answer}", ${userDeckID})`, function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(results)
+                console.log("Card Inserted");
+                res.render('cards.html')
+            }
            
-//         })
+        })
 
-//     }
-// });
-
-// app.get('/decks', function(req,res) {
-    
-//     con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
-//         if (err) throw err;
-
-//         decks =[];
-//         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
-//         (results).forEach(x => {
-//             decks.push(x.deckName);
-//         });
-
-//         console.log(decks);
-
-//         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
-//         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-//         res.render('decks.html', {decks});
-//     })
-// })
-
-
-
-// /* ----------------------------------------------------------- */
+    }
+})
+/* ----------------------------------------------------------- */
