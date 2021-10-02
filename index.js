@@ -62,6 +62,8 @@ let userCourseID;
 let userDeckID;
 let userCardID;
 let decks;
+let cards = [];
+let dictionary;
 
 /* ----------------------------------------------------------- */
 
@@ -378,61 +380,82 @@ app.get('/decks', function(req,res) {
 
 
 /* -- CARD PAGE ---------------------------------------------- */
-// TODO: Check MW file
-// this get card method
+// This is when we select the deck in the dropdown list in decks.html ---> redirect to flashcard of specified card.
+
 app.post('/getCards', function(req,res) {
     if (req.session.loggedin) {
+
         let selectedDeck = req.body.selectedDeck;
         console.log(`Selected Deck:`, selectedDeck);
 
         con.query(`SELECT deckID FROM Decks WHERE deckName = ?`, [selectedDeck], function (err, results) {
             if (err) {
-                res.render('decks.html');
+                res.render('/decks');
             }
             else {
-            
-                con.query(`SELECT cardID FROM Decks_Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
-                    console.log(results)
-                    userCardID = results[0].cardID;
-                    console.log(userCardID)
-                    res.render('cards.html')
-                })
-                res.render('cards.html')
+                userDeckID = results[0].deckID;
+                console.log(results)
+                console.log(`Selected DeckID: ${userDeckID}`);
+                res.redirect('/cards')
+               
             }
         })
     }
 })
 
+// this create cards method, retrieve new card's ID, and store it as userCardID
 
-// display flashcard page
+app.post('/createCards', function(req, res) {
 
-app.get('/createcards', function(err, results) {
     if (req.session.loggedin) {
-        res.render('cards.html');
-    }
-});
+        let question = req.body.question
+        let answer = req.body.answer
 
-// flashcard method ---->>> Still has error
+        console.log(question);
+        console.log(answer)
 
-app.post('/createcards', function(err, results) {
-    if (req.session.loggedin) {
-        let question = req.body.question;
-        let answer = req.body.answer;
-
-        console.log(`Question: ${question}`)
-        console.log(`Answer: ${answer}`)
-        con.query(`INSERT INTO cards (cardQuestion, cardAnswer, deckID) VALUES ("${question}", "${answer}", ${userDeckID})`, function (err, results) {
+        con.query(`INSERT INTO Cards (cardQuestion, cardAnswer, deckID) VALUES ("${question}", "${answer}", ${userDeckID})`, function (err, results) {
             if (err) {
-                console.log(err);
+                console.log(err)
             }
             else {
-                console.log(results)
-                console.log("Card Inserted");
-                res.render('cards.html')
-            }
-           
-        })
+                userCardID = results.insertId
+                console.log(`User CardID : ${userCardID}`)
+                console.log(`Insert ID: ${userDeckID}`)
+                console.log("New Cards Inserted")
 
+                // populate cards
+                cards.push(question, answer)
+                
+                res.redirect('/cards')
+            }
+        })
     }
+})
+
+// display flashcard page after clicking submit -----> still works on
+
+app.get('/cards', function(req, res) {
+    
+    con.query(`SELECT cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            
+            (results).forEach(x => {
+                cards.push({
+                    'Question' :x.cardQuestion,
+                    'Answer' : x.cardAnswer})
+            });
+
+            // convert to dictionary
+            dictionary = Object.assign({}, ...cards.map((x) => ({[x.Question]: x.Answer})));
+            console.log(dictionary);
+            console.log(cards);
+            
+            res.render('cards.html', {dictionary});
+        }  
+    }) 
 })
 /* ----------------------------------------------------------- */
