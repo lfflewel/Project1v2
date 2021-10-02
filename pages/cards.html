@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <title>Flashcards</title>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  background: whitesmoke;
+}
+
+button{
+  padding: 8px;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background: whitesmoke;
+}
+
+button:hover{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.container{
+  width: 1280px;
+  margin: auto;
+}
+
+header{background-color: #fff;}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 70px;
+  padding: 0 20px;
+  background: #fff;
+}
+
+#header button{
+  font-family: inherit;
+  border: 1px solid red;
+}
+
+#create_card{
+  display: none;
+  width: 370px;
+  margin: auto;
+  padding: 30px;
+  margin-top: 20px;
+  background: whitesmoke;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+
+#create_card h2{
+  color: black;
+  text-align: center;
+}
+
+#create_card textarea{
+  width: 100%;
+  border-radius: 5px;
+  font-family: inherit;
+  border: 1px solid lightgray;
+}
+
+#create_card button{width: fit-content;}
+
+#flashcards{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+  padding: 0px 10px;
+}
+
+.flashcard{
+  width: 370px;
+  height: 200px;
+
+  word-wrap: break-word;
+  margin: 10px; 
+  background:#fff;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+
+.flashcard h2{font-size: 1rem;}
+
+@media(max-width:1280px){
+  .container{width: 100%;}
+}
+
+@media(max-width:768px){
+  .flashcard{margin: auto;}
+
+  .flashcard{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+@media(max-width:480px){
+  #header{
+    padding: 20px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #create_card{width: 95%;}
+
+  .flashcard{width: 100%;}
+
+}
+  </style>
+</head>
+<body>
+
+  <main>
+    
+    <header>
+      <div class="container">
+        <div id="header">
+          <h1>Flashcards</h1>
+          <div>
+            <button id="show_card_box">Add Card</button>
+            <button id="delete_cards">Del Cards</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <section>
+      <div class="container">
+        <div id="create_card">
+          <h2>Create Flashcard</h2>
+          <form action="/createCards" method="POST">
+              <label for="question">Question</label>
+              <input type="text" name="question" maxlength="280"></textarea>
+              <br>
+              <label for="answer" maxlength="280">Answer</label>
+              
+              <input type="text" name="answer" maxlength="280"></textarea>
+              <br>
+              <input type="submit" value="Submit" onclick="addFlashCard()">
+              
+          </form>
+          <button id="close_card_box">Close</button>
+          
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <% for (const [key, value] of Object.entries(dictionary)) { %>
+          <%= key %> <%= value %>
+        <% } %>
+          <div id="flashcards"></div>
+
+      </div>
+    </section>
+
+  </main>
+  <script>
+    document.getElementById("show_card_box").addEventListener("click", () => {
+    document.getElementById("create_card").style.display = "block";
+    });
+
+    document.getElementById("close_card_box").addEventListener("click", () => {
+    document.getElementById("create_card").style.display = "none";
+    });
+    
+    // function addFlashCard() {
+      
+    // }
+  </script>
+  <script src="index.js"></script>
+</body>
+</html>
