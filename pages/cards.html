@@ -13,24 +13,47 @@
   padding: 0;
   box-sizing: border-box;
 }
+body {
+            background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
+            background-repeat:no-repeat;
+}
 
-body{
-  font-family: 'Nunito', sans-serif;
-  font-size: 1rem;
-  background: whitesmoke;
+.navigation-container{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 0px 45px #a8a8a8;
+  border-radius: 30px;
+  height: 5vh;
+  margin: auto;
+}
+
+.navigation-buttons, .button {
+  margin: auto;
+  padding: 10px 20px;
+  background-color: #04AA6D;
+  color: #fff;
+  border: none;
+  font-size: 2vh;
+  border-radius: 2vh;
+  box-shadow: 15px 15px 20px #a8a8a8;
+  transition: box-shadow 0.5s;
+  outline: none;
+  cursor: pointer;
+}
+
+.navigation-buttons:hover{
+    background-color: #f1a566;
 }
 
 button{
-  padding: 8px;
   outline: none;
   cursor: pointer;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background: whitesmoke;
 }
 
-button:hover{
-  background-color: rgba(0, 0, 0, 0.1);
+.button:hover{
+  background-color: rgba(231, 17, 213, 0.137);
+  color:#000;
 }
 
 .container{
@@ -49,14 +72,21 @@ header{background-color: #fff;}
   background: #fff;
 }
 
-#header button{
-  font-family: inherit;
-  border: 1px solid red;
+.button{
+  background-color: #f1bb90;
+}
+
+#close_card_box, #submit{
+  font-size: 1.5vh;
+  border-radius: 1.5vh;
+  margin-top: .5vh;
+  height: fit-content;
 }
 
 #create_card{
   display: none;
-  width: 370px;
+  width: 550px;
+  height:300px;
   margin: auto;
   padding: 30px;
   margin-top: 20px;
@@ -69,14 +99,16 @@ header{background-color: #fff;}
   text-align: center;
 }
 
-#create_card textarea{
-  width: 100%;
-  border-radius: 5px;
-  font-family: inherit;
-  border: 1px solid lightgray;
+input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 500px;
+  height: 20px;
 }
 
-#create_card button{width: fit-content;}
+#create_card button{
+  width: fit-content;
+}
 
 #flashcards{
   display: flex;
@@ -166,6 +198,12 @@ header{background-color: #fff;}
 }
   </style>
 </head>
+<div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
+  <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/decks'">Decks</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
+  </div>
 <body>
 
   <main>
@@ -174,9 +212,9 @@ header{background-color: #fff;}
       <div class="container">
         <div id="header">
           <h1>Flashcards</h1>
-          <div>
-            <button id="show_card_box">Add Card</button>
-            <button id="delete_cards">Del Cards</button>
+          <div id="addDelButtons" >
+            <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
+            <button class="button" value="delete" id="delete_cards">Del Cards</button>
           </div>
         </div>
       </div>
@@ -188,16 +226,16 @@ header{background-color: #fff;}
           <h2>Create Flashcard</h2>
           <form action="/createCards" method="POST">
               <label for="question">Question</label>
-              <input type="text" name="question" maxlength="280"></textarea>
+              <input type="text" name="question" maxlength="500"></textarea>
               <br>
               <label for="answer" maxlength="280">Answer</label>
               
-              <input type="text" name="answer" maxlength="280"></textarea>
+              <input type="text" name="answer" maxlength="500"></textarea>
               <br>
-              <input type="submit" value="Submit" onclick="addFlashCard()">
+              <input class="button" id= "submit" type="submit" value="Submit" onclick="addFlashCard()">
               
           </form>
-          <button id="close_card_box">Close</button>
+          <button class="button" id="close_card_box" onclick="closeCardBox()">Close</button>
           
         </div>
       </div>
@@ -219,19 +257,25 @@ header{background-color: #fff;}
       <% } %>
   </main>
   <script>
-    document.getElementById("show_card_box").addEventListener("click", () => {
-    document.getElementById("create_card").style.display = "block";
-    });
 
-    document.getElementById("close_card_box").addEventListener("click", () => {
-    document.getElementById("create_card").style.display = "none";
-    });
-    
-    // div.className = 'flashcard';
-    function myFlipFunction() {
-    var myElement = document.getElementById("flashcards");
-        myElement.classList.toggle("flipper");
-     }
+// add card box and hid add/del buttons
+function showCardBox() {
+    document.getElementById("create_card").style.display = "block";
+    document.getElementById("addDelButtons").style.display  = "none";
+  };
+
+  // hide new card box unhide add/del buttons
+function closeCardBox() {
+  document.getElementById("create_card").style.display = "none";
+  document.getElementById("addDelButtons").style.display = "block";
+
+};
+
+// div.className = 'flashcard';
+function myFlipFunction() {
+var myElement = document.getElementById("flashcards");
+    myElement.classList.toggle("flipper");
+  }
 
   </script>
   <script src="index.js"></script>
