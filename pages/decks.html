@@ -21,6 +21,30 @@ body {
             font-size: 25px;
         }
 
+        .dropdown-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+          
+        }
+
+        select{
+      
+            display: block;
+            margin-left: 10vw;
+            font-size: 25px;
+            text-align: center;
+            float:right;
+        }
+
+
+
+        select:hover{
+            background-color: #f3dcff;
+        }
+
+
         input {
             display: block;
             margin-left: auto;
@@ -115,9 +139,10 @@ body {
                                 <input type="submit" name="createdecks" value="Create New Deck">
                             </nav>
                         </form>        
-            </section>
-            <section class="dropdown-info">
-                <form action="/getCards" method="POST">
+            <!-- </section> -->
+            <!-- <section class="dropdown-info"> -->
+                <form action="/getCards" class="dropdown-info" method="POST">
+                    <span display:inline >Select a deck </span>
                     
                     <select id="selectedDeck" name="selectedDeck" onchange="this.form.submit()">
                         <option value="0">Select Deck</option>

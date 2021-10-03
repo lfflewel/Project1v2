@@ -9,6 +9,7 @@ const mysql = require('mysql');
 const session = require('express-session');
 const exp = require('constants');
 
+
 // this to parse JSON data that gets retrieve from the data base
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -320,7 +321,7 @@ app.post('/createDecks', function(req, res) {
         let newDeck =  req.body.newDeck;
         console.log(newDeck);
 
-        let alreadyExists = false;
+
 
         decks.forEach(x => {
             if (x == newDeck)
@@ -340,17 +341,18 @@ app.post('/createDecks', function(req, res) {
                     console.log(`DeckID : ${userDeckID}`);    
                     console.log("Decks Inserted");
                     console.log(newDeck);
-                    // decks.push(newDeck);*already pushing the new deck on '/decks'
+                    decks.push(newDeck);
+                    console.log(decks);
     
-                    res.redirect('/decks');
-                    
+                    res.redirect('/decks');                    
                 }
                
             })
         }
         else {
-            // LFF gave more meaningful error message
-            res.send('That deck already exists. Choose a differant Deck Name.');
+
+           res.send('That deck already exists. Choose a differant Deck Name.');
+
         }
     }
 });
@@ -360,7 +362,7 @@ app.get('/decks', function(req,res) {
     con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
         console.log(`Deck Results: ${results}`)
-        decks =[];
+        decks = [];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
         (results).forEach(x => {
             decks.push(x.deckName);
