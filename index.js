@@ -340,7 +340,7 @@ app.post('/createDecks', function(req, res) {
                     console.log(`DeckID : ${userDeckID}`);    
                     console.log("Decks Inserted");
                     console.log(newDeck);
-                    decks.push(newDeck);
+                    // decks.push(newDeck);*already pushing the new deck on '/decks'
     
                     res.redirect('/decks');
                     
@@ -349,7 +349,8 @@ app.post('/createDecks', function(req, res) {
             })
         }
         else {
-            res.send('FAILED');
+            // LFF gave more meaningful error message
+            res.send('That deck already exists. Choose a differant Deck Name.');
         }
     }
 });
