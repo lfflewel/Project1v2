@@ -221,7 +221,7 @@ input[type="submit" i] {
           <div id="addDelButtons" >
             <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
             <button class="button" value="delete" id="delete_cards">Del Cards</button>
-            <button class="button" value="show" id="show_cards" onclick="showFlashCards()">Show Cards</button>
+            <!-- <button class="button" value="show" id="show_cards" onclick="showFlashCards()">Show Cards</button> -->
           </div>
         </div>
       </div>
@@ -249,14 +249,14 @@ input[type="submit" i] {
     </section>
 
   
-      <div class="Container">
+      <!-- <div class="Container">
         <div id="header">
           <div id="showCardButtons" >
             <button class="button"  id="flip_card" onclick="flipCard()">Flip Card</button>
             <button class="button"  id="next_card" onclick="nextCard()">Next Card</button>
           </div>
         </div>
-      </div>
+      </div> -->
     
     
       <div id="flashcards">
@@ -280,7 +280,7 @@ input[type="submit" i] {
   function showCardBox() {
       document.getElementById("create_card").style.display = "block";
       document.getElementById("addDelButtons").style.display  = "none";
-      document.getElementById("showCardButtons").style.display  = "none";
+      // document.getElementById("showCardButtons").style.display  = "none";
       document.getElementById("flashcards").style.display = "none";
     
     };
@@ -296,14 +296,14 @@ input[type="submit" i] {
     document.getElementById("create_card").style.display = "none";
     document.getElementById("addDelButtons").style.display = "block";
     document.getElementById("flashcards").style.display = "none";
-    document.getElementById("showCardButtons").style.display = "none";
+    // document.getElementById("showCardButtons").style.display = "none";
     
   };
 
-  function showFlashCards(){
-      document.getElementById("flashcards").style.display = "block";
-      document.getElementById("showCardButtons").style.display = "block";
-  };
+  // function showFlashCards(){
+  //     document.getElementById("flashcards").style.display = "block";
+  //     document.getElementById("showCardButtons").style.display = "block";
+  // };
 
   // togglefunction to flip the card
   // cardNumber = i = index
