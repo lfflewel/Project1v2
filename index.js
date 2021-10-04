@@ -321,6 +321,7 @@ app.post('/createDecks', function(req, res) {
         let newDeck =  req.body.newDeck;
         console.log(newDeck);
 
+        let alreadyExists = false;
 
 
         decks.forEach(x => {
