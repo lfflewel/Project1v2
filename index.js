@@ -455,12 +455,10 @@ app.get('/cards', function(req, res) {
                     'Answer' : x.cardAnswer})
             });
 
-            // convert to dictionary
-            dictionary = Object.assign({}, ...cards.map((x) => ({[x.Question]: x.Answer})));
-            console.log("dict: " + dictionary);
+            
             console.log("cards: " + cards);
             
-            res.render('cards.html', {dictionary});
+            res.render('cards.html', {cards});
         }  
     }) 
 })
