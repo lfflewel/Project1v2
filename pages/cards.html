@@ -13,6 +13,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
             background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
             background-repeat:no-repeat;
@@ -46,9 +47,10 @@ body {
     background-color: #f1a566;
 }
 
-button{
+.button{
   outline: none;
   cursor: pointer;
+  background-color: #f1bb90 ;
 }
 
 #showCardButtons{
@@ -76,21 +78,22 @@ header{background-color: #fff;}
   background: #fff;
 }
 
-.button{
-  background-color: #f1bb90;
-}
+/* #header button{
+  font-family: inherit;
+  border: 1px solid red;
+} */
 
 #close_card_box, #submit{
   font-size: 1.5vh;
   border-radius: 1.5vh;
-  margin-top: .5vh;
-  height: fit-content;
+  margin-top: 20px;
+  width: 100px;
+
 }
 
 #create_card{
   display: none;
-  width: 550px;
-  height:300px;
+  width: 500px;
   margin: auto;
   padding: 30px;
   margin-top: 20px;
@@ -103,82 +106,34 @@ header{background-color: #fff;}
   text-align: center;
 }
 
-input {
+
+#create_card textarea{
+  width: 100%;
+  border-radius: 5px;
+  font-family: inherit;
+  border: 1px solid lightgray;
+}
+
+input[type="text" i] {
+  padding: 2px 4px;
   margin-top: 10px;
-  margin-bottom: 10px;
-  width: 500px;
-  height: 20px;
+  width: 450px;
+  height: 100px;
+
 }
 
-#create_card button{
-  width: fit-content;
+input[type="submit" i] {
+  width: 100px;
+  margin: 20px;
+  float: left;
+  border-radius: 1.5vh;
 }
 
+/* #create_card button{width: fit-content;} */
 
-.card
-{
-    perspective: 1000px;
-    cursor: pointer;
-    display: none;
-    width: 550px;
-    height:300px;
-    margin: auto;
-    padding: 30px;
-    margin-top: 20px;
-    background: whitesmoke;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
-}
-.card--flipped .card__inner,
-.card--flipped .card__inner,
-.card--flipped .card__inner
-{
-    transform: rotateY(180deg);
-}
-
-.card,
-.card__inner
-{
-    position: relative;
-    width: 300px;
-    height: 320px;
-}
-
-.card__inner
-{
-    transition: transform .25s ease-in-out;
-    transform-origin: 50% 50%;
-
-    transform-style: preserve-3d;
-}
-
-.theback
-{
-    transform: rotateY(180deg);
-    background-color: red;
-}
-
-.thefront,
-.theback
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    display: flex;
-
-    width: 100%;
-    height: 100%;
-
-    color: #888;
-    background-color: #fff;
-
-    justify-content: center;
-    align-items: center;
-    backface-visibility: hidden;
-}
-
-/* #flashcards{
+#flashcards{
   display: flex;
+  /* flex-direction: row; */
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -191,51 +146,14 @@ input {
 .flashcard{
   width: 370px;
   height: 200px;
-  top: 0;
-  left: 0;
   word-wrap: break-word;
-  background:#fff;
+  margin: 10px; 
+  background:rgb(164, 226, 255);
   cursor: pointer;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
-  border-radius: 10px;
-  transform-style: preserve-3d;
-  transition: all 0.8s ease;
 }
 
-  .flashcard h2{font-size: 1rem;}
-  .flashcard:hover {
-    transform: rotateY(180deg);
-  }
-
-.thefront{
-  border-top: 1px solid red;
-  padding: 15px;
-  margin-top: 30px;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  backface-visibility: hidden;
-  overflow: hidden;
-  background: white;
-  color: #000;
-}
-
-.theback{
-  text-align: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  backface-visibility: hidden;
-  overflow: hidden;
-  background: #fafafa;
-  color: black;
-  text-align: center;
-  transform: rotateY(180deg);
-} 
+.flashcard h2{font-size: 1rem;}
 
 @media(max-width:1280px){
   .container{width: 100%;}
@@ -262,17 +180,38 @@ input {
 
   .flashcard{width: 100%;}
 
-} */
+}
+
+.questionSide {
+  height: 20px;
+  width: 370px;
+  background:rgb(164, 226, 255);
+  border-top: 1px solid red;
+  margin-top: 30px;
+  padding: 15px;
+  text-align: center;
+}
+
+.answerSide {
+  height: 20px;
+  width: 370px;
+  text-align: center;
+  padding: 30px;
+}
+
+.hide {
+  display: none;
+}
+
   </style>
 </head>
-<div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
-  <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
-  <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
-  <button type="button" class="navigation-buttons" onclick="location.href = '/decks'">Decks</button>
-  <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
-  </div>
 <body>
-
+  <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
+    <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
+    <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
+    <button type="button" class="navigation-buttons" onclick="location.href = '/decks'">Decks</button>
+    <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
+    </div>
   <main>
     
     <header>
@@ -294,35 +233,22 @@ input {
           <h2>Create Flashcard</h2>
           <form action="/createCards" method="POST">
               <label for="question">Question</label>
-              <input type="text" name="question" maxlength="500"></textarea>
+              <input type="text" name="question" maxlength="280"></textarea>
               <br>
               <label for="answer" maxlength="280">Answer</label>
               
-              <input type="text" name="answer" maxlength="500"></textarea>
+              <input type="text" name="answer" maxlength="280"></textarea>
               <br>
-              <input class="button" id= "submit" type="submit" value="Submit" onclick="addFlashCard()">
-                            
+              <input type="submit" value="Save" onclick="addFlashCard()">
+              
           </form>
-          <button class="button" id="close_card_box" onclick="closeCardBox()">Close</button>
+          <button id="close_card_box" onclick="closeCardBox()">Close</button>
           
         </div>
       </div>
     </section>
 
-   <!-- <section>
-      <div class="container">
-      
-      </div>
-    </section> -->
-      <!-- <div id="flashcards" onclick="myFlipFunction()"></div>
-      <% for (const [key, value] of Object.entries(dictionary)) { %>
-        <div class="thefront">
-          <%= key %>
-        </div>
-        <div class="theback">
-          <%= value %>
-        </div>
-      <% } %> -->
+  
       <div class="Container">
         <div id="header">
           <div id="showCardButtons" >
@@ -331,68 +257,74 @@ input {
           </div>
         </div>
       </div>
-      <div id="card" class="card" >
-        <div class="card_inner">
-          <% for (const [key, value] of Object.entries(dictionary)) { %>
-            <div class= "thefront">
-              <%= key %>
-            </div><!--.thefront-->
-            <div class="theback">
-              <%= value %>
-            </div><!--.theback-->
-          <% } %>
-        </div> <!--.card_inner-->
-      </div><!--.card-->
-    </header>
     
+    
+      <div id="flashcards">
+        <% for (var i = 0; i < cards.length; i++) { %>
+        <div class="flashcard">
+          <div class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
+          <div class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
+        </div>
+        <% } %>
+      </div>
 
-  
-  </main>
-
+    <!-- EXPLAIN: -->
+      <!-- We don't need a dictionary because  object is already defined with Question and Answer ---> I deleted the convert to dictionary in index.js  -->
+      <!-- We just do a for loop, with the length of cards list size, then "i" would be the number which we will then use as index. -->
+      <!-- And so, we can pass in the "i" to not only as the unique id names but also in our function parameter. Without index, it would only toggle the first card. -->
+      <!-- So when the function looks for elements to toggle, it will target specifically and only whatever the id name that matches, so every card is unique. -->
 
   </main>
   <script>
+    // add card box and hid add/del buttons
+  function showCardBox() {
+      document.getElementById("create_card").style.display = "block";
+      document.getElementById("addDelButtons").style.display  = "none";
+      document.getElementById("showCardButtons").style.display  = "none";
+      document.getElementById("flashcards").style.display = "none";
+    
+    };
 
-// div.className = 'flashcard';
-function flipCard() {
-var myElement = document.getElementsByClassName("card");
-    myElement.classList.toggle("card--flipped");
-    }
-
-// add card box and hid add/del buttons
-function showCardBox() {
-    document.getElementById("create_card").style.display = "block";
-    document.getElementById("addDelButtons").style.display  = "none";
-    document.getElementById("showCardButtons").style.display  = "none";
-    document.getElementById("card").style.display = "none";
-   
+    // hide new card box unhide add/del buttons
+  function closeCardBox() {
+    document.getElementById("create_card").style.display = "none";
+    document.getElementById("addDelButtons").style.display = "block";
+    document.getElementById("flashcards").style.display = "";
   };
 
-  // hide new card box unhide add/del buttons
-function closeCardBox() {
-  document.getElementById("create_card").style.display = "none";
-  document.getElementById("addDelButtons").style.display = "block";
-  document.getElementById("card").style.display = "none";
-};
+  function addFlashCard() {
+    document.getElementById("create_card").style.display = "none";
+    document.getElementById("addDelButtons").style.display = "block";
+    document.getElementById("flashcards").style.display = "none";
+    document.getElementById("showCardButtons").style.display = "none";
+    
+  };
 
-function addFlashCard() {
-  document.getElementById("create_card").style.display = "none";
-  document.getElementById("addDelButtons").style.display = "block";
-  document.getElementById("card").style.display = "none";
-  document.getElementById("showCardButtons").style.display = "none";
-   
-};
+  function showFlashCards(){
+      document.getElementById("flashcards").style.display = "block";
+      document.getElementById("showCardButtons").style.display = "block";
+  };
 
-function showFlashCards(){
-    document.getElementById("card").style.display = "block";
-    document.getElementById("showCardButtons").style.display = "block";
-};
+  // togglefunction to flip the card
+  // cardNumber = i = index
+  
+    function toggleFlashCard(side, cardNumber) {
 
-// // div.className = 'flashcard';
-// function myFlipFunction() {
-// var myElement = document.getElementById("flashcards");
-//     myElement.classList.toggle("flipper");
-//   }
+      console.log(cardNumber);
+      console.log(document.getElementById(`question-${cardNumber}`));
+      
+
+      if (side === "question")
+      {
+        document.getElementById(`question-${cardNumber}`).classList.add("hide");
+        document.getElementById(`answer-${cardNumber}`).classList.remove("hide");
+      }
+      else if (side === "answer")
+      {
+        document.getElementById(`question-${cardNumber}`).classList.remove("hide");
+        document.getElementById(`answer-${cardNumber}`).classList.add("hide");
+      }
+    };
 
   </script>
   <script src="index.js"></script>
