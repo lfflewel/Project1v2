@@ -51,6 +51,10 @@ button{
   cursor: pointer;
 }
 
+#showCardButtons{
+  display: none;
+}
+
 .button:hover{
   background-color: rgba(231, 17, 213, 0.137);
   color:#000;
@@ -115,7 +119,7 @@ input {
 {
     perspective: 1000px;
     cursor: pointer;
-    /* display: none; */
+    display: none;
     width: 550px;
     height:300px;
     margin: auto;
@@ -278,7 +282,7 @@ input {
           <div id="addDelButtons" >
             <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
             <button class="button" value="delete" id="delete_cards">Del Cards</button>
-            <button action="/cardsShow" class="button" value="show" id="show_cards">Show Cards</button>
+            <button class="button" value="show" id="show_cards" onclick="showFlashCards()">Show Cards</button>
           </div>
         </div>
       </div>
@@ -319,28 +323,29 @@ input {
           <%= value %>
         </div>
       <% } %> -->
-      <div class="container">
+      <div class="Container">
         <div id="header">
-          <div id="addDelButtons" >
+          <div id="showCardButtons" >
             <button class="button"  id="flip_card" onclick="flipCard()">Flip Card</button>
             <button class="button"  id="next_card" onclick="nextCard()">Next Card</button>
           </div>
         </div>
       </div>
+      <div id="card" class="card" >
+        <div class="card_inner">
+          <% for (const [key, value] of Object.entries(dictionary)) { %>
+            <div class= "thefront">
+              <%= key %>
+            </div><!--.thefront-->
+            <div class="theback">
+              <%= value %>
+            </div><!--.theback-->
+          <% } %>
+        </div> <!--.card_inner-->
+      </div><!--.card-->
     </header>
     
-    <div id="card" class="card" >
-      <div class="card_inner">
-        <% for (const [key, value] of Object.entries(dictionary)) { %>
-          <div class= "thefront">
-            <%= key %>
-          </div><!--.thefront-->
-          <div class="theback">
-            <%= value %>
-          </div><!--.theback-->
-        <% } %>
-      </div> <!--.card_inner-->
-    </div><!--.card-->
+
   
   </main>
 
@@ -348,28 +353,39 @@ input {
   </main>
   <script>
 
-    // div.className = 'flashcard';
-    function flipCard() {
-    var myElement = document.getElementsByClassName("card");
-        myElement.classList.toggle("card--flipped");
-        }
+// div.className = 'flashcard';
+function flipCard() {
+var myElement = document.getElementsByClassName("card");
+    myElement.classList.toggle("card--flipped");
+    }
 
 // add card box and hid add/del buttons
 function showCardBox() {
     document.getElementById("create_card").style.display = "block";
     document.getElementById("addDelButtons").style.display  = "none";
+    document.getElementById("showCardButtons").style.display  = "none";
+    document.getElementById("card").style.display = "none";
+   
   };
 
   // hide new card box unhide add/del buttons
 function closeCardBox() {
   document.getElementById("create_card").style.display = "none";
   document.getElementById("addDelButtons").style.display = "block";
+  document.getElementById("card").style.display = "none";
 };
 
 function addFlashCard() {
   document.getElementById("create_card").style.display = "none";
   document.getElementById("addDelButtons").style.display = "block";
-  
+  document.getElementById("card").style.display = "none";
+  document.getElementById("showCardButtons").style.display = "none";
+   
+};
+
+function showFlashCards(){
+    document.getElementById("card").style.display = "block";
+    document.getElementById("showCardButtons").style.display = "block";
 };
 
 // // div.className = 'flashcard';
