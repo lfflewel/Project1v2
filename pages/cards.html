@@ -110,6 +110,69 @@ input {
   width: fit-content;
 }
 
+
+.card
+{
+    perspective: 1000px;
+    cursor: pointer;
+    /* display: none; */
+    width: 550px;
+    height:300px;
+    margin: auto;
+    padding: 30px;
+    margin-top: 20px;
+    background: whitesmoke;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+.card--flipped .card__inner,
+.card--flipped .card__inner,
+.card--flipped .card__inner
+{
+    transform: rotateY(180deg);
+}
+
+.card,
+.card__inner
+{
+    position: relative;
+    width: 300px;
+    height: 320px;
+}
+
+.card__inner
+{
+    transition: transform .25s ease-in-out;
+    transform-origin: 50% 50%;
+
+    transform-style: preserve-3d;
+}
+
+.theback
+{
+    transform: rotateY(180deg);
+    background-color: red;
+}
+
+.thefront,
+.theback
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    color: #888;
+    background-color: #fff;
+
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+}
+
 /* #flashcards{
   display: flex;
   justify-content: center;
@@ -256,8 +319,40 @@ input {
           <%= value %>
         </div>
       <% } %> -->
+      <div class="container">
+        <div id="header">
+          <div id="addDelButtons" >
+            <button class="button"  id="flip_card" onclick="flipCard()">Flip Card</button>
+            <button class="button"  id="next_card" onclick="nextCard()">Next Card</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div id="card" class="card" >
+      <div class="card_inner">
+        <% for (const [key, value] of Object.entries(dictionary)) { %>
+          <div class= "thefront">
+            <%= key %>
+          </div><!--.thefront-->
+          <div class="theback">
+            <%= value %>
+          </div><!--.theback-->
+        <% } %>
+      </div> <!--.card_inner-->
+    </div><!--.card-->
+  
+  </main>
+
+
   </main>
   <script>
+
+    // div.className = 'flashcard';
+    function flipCard() {
+    var myElement = document.getElementsByClassName("card");
+        myElement.classList.toggle("card--flipped");
+        }
 
 // add card box and hid add/del buttons
 function showCardBox() {

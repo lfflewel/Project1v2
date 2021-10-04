@@ -459,7 +459,7 @@ app.get('/cards', function(req, res) {
             console.log("dict: " + dictionary);
             console.log("cards: " + cards);
             
-            res.render('cardsShow.html', {dictionary});
+            res.render('cards.html', {dictionary});
         }  
     }) 
 })
