@@ -444,11 +444,9 @@ app.post('/createCards', function(req, res) {
 app.get('/cards', function(req, res) {
     
     con.query(`SELECT cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            
+        if (err) throw err;
+        cards =[];
+
             (results).forEach(x => {
                 cards.push({
                     'Question' :x.cardQuestion,
@@ -459,7 +457,7 @@ app.get('/cards', function(req, res) {
             console.log("cards: " + cards);
             
             res.render('cards.html', {cards});
-        }  
+       
     }) 
 })
 
