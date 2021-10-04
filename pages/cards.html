@@ -17,6 +17,7 @@
 body {
             background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
             background-repeat:no-repeat;
+            height: 100vh;
 }
 
 .navigation-container{
@@ -76,6 +77,14 @@ header{background-color: #fff;}
   min-height: 70px;
   padding: 0 20px;
   background: #fff;
+}
+
+#fcHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 70px;
+  padding: 0 20px;
 }
 
 /* #header button{
@@ -214,18 +223,14 @@ input[type="submit" i] {
     </div>
   <main>
     
-    <header>
-      <div class="container">
-        <div id="header">
-          <h1>Flashcards</h1>
+    <div id="fcHeader" class="container">
+      <h1> Flashcards</h1>
           <div id="addDelButtons" >
             <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
             <button class="button" value="delete" id="delete_cards">Del Cards</button>
             <!-- <button class="button" value="show" id="show_cards" onclick="showFlashCards()">Show Cards</button> -->
           </div>
-        </div>
-      </div>
-    </header>
+    </div>
     
     <section>
       <div class="container">
@@ -259,17 +264,17 @@ input[type="submit" i] {
       </div> -->
     
     
-      <div id="flashcards">
+      <div id="flashcards" style="height:87vh">
         <% for (var i = 0; i < cards.length; i++) { %>
         <div class="flashcard">
-          <div class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
-          <div class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
+          <div style="height: 13vh" class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
+          <div  style="height: 15vh" class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
         </div>
         <% } %>
       </div>
 
     <!-- EXPLAIN: -->
-      <!-- We don't need a dictionary because  object is already defined with Question and Answer ---> I deleted the convert to dictionary in index.js  -->
+      <!-- We don't need a dictionary because  object is already defined with Question and Answer. I deleted the convert to dictionary in index.js  -->
       <!-- We just do a for loop, with the length of cards list size, then "i" would be the number which we will then use as index. -->
       <!-- And so, we can pass in the "i" to not only as the unique id names but also in our function parameter. Without index, it would only toggle the first card. -->
       <!-- So when the function looks for elements to toggle, it will target specifically and only whatever the id name that matches, so every card is unique. -->
