@@ -110,7 +110,7 @@ input {
   width: fit-content;
 }
 
-#flashcards{
+/* #flashcards{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,7 +195,7 @@ input {
 
   .flashcard{width: 100%;}
 
-}
+} */
   </style>
 </head>
 <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
@@ -215,6 +215,7 @@ input {
           <div id="addDelButtons" >
             <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
             <button class="button" value="delete" id="delete_cards">Del Cards</button>
+            <button action="/cardsShow" class="button" value="show" id="show_cards">Show Cards</button>
           </div>
         </div>
       </div>
@@ -233,7 +234,7 @@ input {
               <input type="text" name="answer" maxlength="500"></textarea>
               <br>
               <input class="button" id= "submit" type="submit" value="Submit" onclick="addFlashCard()">
-              
+                            
           </form>
           <button class="button" id="close_card_box" onclick="closeCardBox()">Close</button>
           
@@ -241,12 +242,12 @@ input {
       </div>
     </section>
 
-   <section>
+   <!-- <section>
       <div class="container">
       
       </div>
-    </section>
-      <div id="flashcards" onclick="myFlipFunction()"></div>
+    </section> -->
+      <!-- <div id="flashcards" onclick="myFlipFunction()"></div>
       <% for (const [key, value] of Object.entries(dictionary)) { %>
         <div class="thefront">
           <%= key %>
@@ -254,7 +255,7 @@ input {
         <div class="theback">
           <%= value %>
         </div>
-      <% } %>
+      <% } %> -->
   </main>
   <script>
 
@@ -268,14 +269,19 @@ function showCardBox() {
 function closeCardBox() {
   document.getElementById("create_card").style.display = "none";
   document.getElementById("addDelButtons").style.display = "block";
-
 };
 
-// div.className = 'flashcard';
-function myFlipFunction() {
-var myElement = document.getElementById("flashcards");
-    myElement.classList.toggle("flipper");
-  }
+function addFlashCard() {
+  document.getElementById("create_card").style.display = "none";
+  document.getElementById("addDelButtons").style.display = "block";
+  
+};
+
+// // div.className = 'flashcard';
+// function myFlipFunction() {
+// var myElement = document.getElementById("flashcards");
+//     myElement.classList.toggle("flipper");
+//   }
 
   </script>
   <script src="index.js"></script>

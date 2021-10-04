@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <title>Flashcards in Deck</title>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+            background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
+            background-repeat:no-repeat;
+}
+
+.navigation-container{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 0px 0px 45px #a8a8a8;
+  border-radius: 30px;
+  height: 5vh;
+  margin: auto;
+}
+
+.navigation-buttons, .button {
+  margin: auto;
+  padding: 10px 20px;
+  background-color: #04AA6D;
+  color: #fff;
+  border: none;
+  font-size: 2vh;
+  border-radius: 2vh;
+  box-shadow: 15px 15px 20px #a8a8a8;
+  transition: box-shadow 0.5s;
+  outline: none;
+  cursor: pointer;
+}
+
+.navigation-buttons:hover{
+    background-color: #f1a566;
+}
+
+.card
+{
+    perspective: 1000px;
+    cursor: pointer;
+    /* display: none; */
+    width: 550px;
+    height:300px;
+    margin: auto;
+    padding: 30px;
+    margin-top: 20px;
+    background: whitesmoke;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+.card--flipped .card__inner,
+.card--flipped .card__inner,
+.card--flipped .card__inner
+{
+    transform: rotateY(180deg);
+}
+
+.card,
+.card__inner
+{
+    position: relative;
+    width: 300px;
+    height: 320px;
+}
+
+.card__inner
+{
+    transition: transform .25s ease-in-out;
+    transform-origin: 50% 50%;
+
+    transform-style: preserve-3d;
+}
+
+.theback
+{
+    transform: rotateY(180deg);
+    background-color: red;
+}
+
+.thefront,
+.theback
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+
+    color: #888;
+    background-color: #fff;
+
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+}
+
+ button{
+  outline: none;
+  cursor: pointer;
+  float:right;
+}
+
+.button:hover{
+  background-color: rgba(231, 17, 213, 0.137);
+  color:#000;
+}
+ /*
+.container{
+  width: 1280px;
+  margin: auto;
+}
+
+header{background-color: #fff;}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 70px;
+  padding: 0 20px;
+  background: #fff;
+}
+
+.button{
+  background-color: #f1bb90;
+}
+
+#close_card_box, #submit{
+  font-size: 1.5vh;
+  border-radius: 1.5vh;
+  margin-top: .5vh;
+  height: fit-content;
+}
+
+#create_card{
+  display: none;
+  width: 550px;
+  height:300px;
+  margin: auto;
+  padding: 30px;
+  margin-top: 20px;
+  background: whitesmoke;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+}
+
+#create_card h2{
+  color: black;
+  text-align: center;
+}
+
+input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 500px;
+  height: 20px;
+}
+
+#create_card button{
+  width: fit-content;
+}
+
+#flashcards{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+  padding: 0px 10px;
+}
+
+.flashcard{
+  width: 370px;
+  height: 200px;
+  top: 0;
+  left: 0;
+  word-wrap: break-word;
+  background:#fff;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: all 0.8s ease;
+}
+
+  .flashcard h2{font-size: 1rem;}
+  .flashcard:hover {
+    transform: rotateY(180deg);
+  }
+
+.thefront{
+  border-top: 1px solid red;
+  padding: 15px;
+  margin-top: 30px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: white;
+  color: #000;
+}
+
+.theback{
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: #fafafa;
+  color: black;
+  text-align: center;
+  transform: rotateY(180deg);
+} 
+
+@media(max-width:1280px){
+  .container{width: 100%;}
+}
+
+@media(max-width:768px){
+  .flashcard{margin: auto;}
+
+  .flashcard{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+@media(max-width:480px){
+  #header{
+    padding: 20px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #create_card{width: 95%;}
+
+  .flashcard{width: 100%;}
+
+} */
+  </style>
+</head>
+<div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
+  <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/decks'">Decks</button>
+  <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
+  </div>
+<body>
+
+  <main>
+    
+    <header>
+      <div class="container">
+        <div id="header">
+          <h1>Flashcards in Deck</h1>
+          <div id="addDelButtons" >
+            <button class="button"  id="flip_card" onclick="flipCard()">Flip Card</button>
+            <button class="button"  id="next_card" onclick="nextCard()">Next Card</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div id="card" class="card" >
+      <div class="card_inner">
+        <% for (const [key, value] of Object.entries(dictionary)) { %>
+          <div class= "thefront">
+            <%= key %>
+          </div><!--.thefront-->
+          <div class="theback">
+            <%= value %>
+          </div><!--.theback-->
+        <% } %>
+      </div> <!--.card_inner-->
+    </div><!--.card-->
+  
+  </main>
+
+  <script>
+
+// div.className = 'flashcard';
+function flipCard() {
+var myElement = document.getElementsByClassName("card");
+    myElement.classList.toggle("card--flipped");
+    }
+
+  </script>
+  <script src="index.js"></script>
+</body>
+</html>

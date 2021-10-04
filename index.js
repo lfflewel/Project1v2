@@ -436,6 +436,8 @@ app.post('/createCards', function(req, res) {
     }
 })
 
+
+
 // display flashcard page after clicking submit -----> still works on
 
 app.get('/cards', function(req, res) {
@@ -454,11 +456,14 @@ app.get('/cards', function(req, res) {
 
             // convert to dictionary
             dictionary = Object.assign({}, ...cards.map((x) => ({[x.Question]: x.Answer})));
-            console.log(dictionary);
-            console.log(cards);
+            console.log("dict: " + dictionary);
+            console.log("cards: " + cards);
             
-            res.render('cards.html', {dictionary});
+            res.render('cardsShow.html', {dictionary});
         }  
     }) 
 })
+
+// Display cards
+
 /* ----------------------------------------------------------- */
