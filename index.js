@@ -63,8 +63,9 @@ let userDeckID;
 let userCardID;
 let decks;
 let cards;
-let canAddNewDeck;
-
+let dictionary;
+let canAddNewMessage = true;
+let canAddNewMessage1 = true;
 /* ----------------------------------------------------------- */
 
 
@@ -119,7 +120,7 @@ app.post('/goBackToLogin', function(req, res) {
 // since this is main page upon loading website, we can just define '/' as the request / route
 app.get('/', function(req, res) {
     // res.render('page') will render the html to localhost:3000
-    res.render('login');
+    res.render('login', {canAddNewMessage, canAddNewMessage1});
   });
 
 
@@ -203,36 +204,30 @@ app.post('/register', function(req, res) {
     con.query('SELECT * FROM Accounts WHERE email = ?', [email], function(err, results, fields) {
         if (err) throw err;
 
-        if(results.length > 0) {
-            // TODO: Will find solutions to populate validation messages on HTML
-            req.session.message = {
-                type: 'warnning',
-                intro: 'Email was existed already',
-                message: 'Please try another email.'
-            }
+        if (results.length > 0) {
+            canAddNewMessage = false;
+
             res.redirect('/');
             console.log('Email was existed already');
         }
+
         else if (confirm_password != password) {
-            req.session.message = {
-                type: 'danger',
-                intro: 'Password do not match',
-                message: ' Please make sure to insert the same password!!'
-            }
+
+            canAddNewMessage1 = false;
             console.log('Password not match!');
             res.redirect('/');
+
         } else {
             // save dato into the database
             con.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
-            if (err) throw err;
-            req.session.message = {
-                type: 'success',
-                intro: 'You are now registered',
-                message: 'Please log in'
-            }
+                if (err) throw err;
+                canAddNewMessage = true;
+                canAddNewMessage1 = true;
+
                 console.log('record inserted')
+                res.redirect('/')
             });
-            res.redirect('/');
+
         }
     })
 });
@@ -335,6 +330,7 @@ app.post('/createDecks', function(req, res) {
             if (x == newDeck)
             {
                 alreadyExists = true;
+                canAddNewMessage = false;
             }
         });
 
@@ -350,7 +346,7 @@ app.post('/createDecks', function(req, res) {
                     console.log("Decks Inserted");
                     console.log(newDeck);
                     decks.push(newDeck);
-                    canAddNewDeck = false
+                    canAddNewMessage = true;
                     res.redirect('/decks');
 
                 }
@@ -358,18 +354,16 @@ app.post('/createDecks', function(req, res) {
             })
         }
         else {
-            
             res.redirect('/decks')
-
+                
         }
     }
 });
 
 app.get('/decks', function(req,res) {
-    canAddNewDeck = true;
+
     con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
-        
         decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
         (results).forEach(x => {
@@ -380,7 +374,7 @@ app.get('/decks', function(req,res) {
 
         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-        res.render('decks.html', {decks, canAddNewDeck});
+        res.render('decks.html', {decks, canAddNewMessage});
     })
 })
 
@@ -399,9 +393,9 @@ app.post('/getCards', function(req,res) {
         let selectedDeck = req.body.selectedDeck;
         console.log(`Selected Deck:`, selectedDeck);
 
-        con.query(`SELECT deckID FROM Decks WHERE courseID = ? and deckName=?`, [userCourseID, selectedDeck], function (err, results) {
+        con.query(`SELECT deckID FROM Decks WHERE courseID = ? AND deckName = ?`, [userCourseID, selectedDeck], function (err, results) {
             if (err) {
-                res.render('decks.html');
+                res.render('/decks');
             }
             else {
                 userDeckID = results[0].deckID;
@@ -419,8 +413,8 @@ app.post('/getCards', function(req,res) {
 app.post('/createCards', function(req, res) {
 
     if (req.session.loggedin) {
-        let question = req.body.question;
-        let answer = req.body.answer;
+        let question = req.body.question
+        let answer = req.body.answer
 
         console.log(question);
         console.log(answer)
@@ -444,25 +438,56 @@ app.post('/createCards', function(req, res) {
     }
 })
 
-// display flashcard page after clicking submit 
+// display flashcard page after clicking submit -----> still works on
 
 app.get('/cards', function(req, res) {
     
-    con.query(`SELECT cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
+    con.query(`SELECT cardID, cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
         if (err) throw err;
+       
         cards = [];    
         (results).forEach(x => {
+            console.log(x.cardID)
             cards.push({
+                    'cardID': x.cardID,
                     'Question' :x.cardQuestion,
-                    'Answer' : x.cardAnswer})
+                    'Answer' : x.cardAnswer
+                    })
             });
-            console.log(`User CardID1: ${userCardID}`)
-           
-            
+            console.log(results)
+            console.log(`Result of Card: ${cards}`)
             res.render('cards.html', {cards});
-        })  
-}) 
 
+})
+})
+
+// DELETE THE FLASHCARDS
+
+app.post('/deletecards', function(req, res) {
+
+        con.query(`DELETE FROM Cards WHERE cardID = ?`, [req.session.cardID],  function (err, results) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                    const index = cards.indexOf(x => x.cardID === req.session.cardID);
+                    cards.splice(index, 1);
+                    console.log(`New Card: ${cards}`)
+                    res.redirect('/cards');
+                    console.log(`Deleted Record : ${results}`)
+            }
+        
+         })
+})
+
+app.get('/deletecards', function(req, res) {
+    if (err) throw err;
+    con.query(`SELECT cardID, cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
+        if (err) throw err;
+        
+        res.redirect('/cards');
+    })
+})
    
 
 
