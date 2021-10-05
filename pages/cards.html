@@ -15,8 +15,8 @@
 }
 
 body {
-            background: linear-gradient(156deg, rgb(232, 190, 254) 0%, rgb(255, 255, 255) 38%, rgb(255, 222, 163) 100%);
-            background-repeat:no-repeat;
+            background: linear-gradient(149deg, rgba(185,168,255,1) 0%, rgba(214,234,255,1) 48%, rgba(255,225,124,1) 100%);
+            background-repeat:repeat;
             height: 100vh;
 }
 
@@ -33,7 +33,7 @@ body {
 .navigation-buttons, .button {
   margin: auto;
   padding: 10px 20px;
-  background-color: #04AA6D;
+  background-color: #71b9ff;
   color: #fff;
   border: none;
   font-size: 2vh;
@@ -51,7 +51,7 @@ body {
 .button{
   outline: none;
   cursor: pointer;
-  background-color: #f1bb90 ;
+  background-color: #71b9ff ;
 }
 
 #showCardButtons{
@@ -157,7 +157,7 @@ input[type="submit" i] {
   height: 200px;
   word-wrap: break-word;
   margin: 10px; 
-  background:rgb(164, 226, 255);
+  background:#fff;
   cursor: pointer;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
 }
@@ -194,7 +194,7 @@ input[type="submit" i] {
 .questionSide {
   height: 20px;
   width: 370px;
-  background:rgb(164, 226, 255);
+  background:#fff;
   border-top: 1px solid red;
   margin-top: 30px;
   padding: 15px;
@@ -206,6 +206,8 @@ input[type="submit" i] {
   width: 370px;
   text-align: center;
   padding: 30px;
+  background-color: white;
+  color: red;
 }
 
 .hide {
@@ -227,7 +229,7 @@ input[type="submit" i] {
       <h1> Flashcards</h1>
           <div id="addDelButtons" >
             <button class="button" value= "add" id="show_card_box" onclick="showCardBox()">Add Card</button>
-            <button class="button" value="delete" id="delete_cards">Del Cards</button>
+            <!-- <button class="button" value="delete" id="delete_cards">Del Cards</button> -->
             <!-- <button class="button" value="show" id="show_cards" onclick="showFlashCards()">Show Cards</button> -->
           </div>
     </div>
@@ -265,12 +267,21 @@ input[type="submit" i] {
     
     
       <div id="flashcards" style="height:87vh">
+       
         <% for (var i = 0; i < cards.length; i++) { %>
-        <div class="flashcard">
-          <div style="height: 13vh" class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
-          <div  style="height: 15vh" class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
-        </div>
+          <form method="POST" action="/deletecards"></form>
+          <div class="flashcard">
+            <div style="height: 20vh" class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
+            <div  style="height: 20vh" class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
+            <input name = "cardID" type="hidden" value="<%= cards[i].cardID %>"></input>
+          </div>
+          <button type="button">Delete</button>
+          </form> 
         <% } %>
+        
+        
+          
+        
       </div>
 
     <!-- EXPLAIN: -->
