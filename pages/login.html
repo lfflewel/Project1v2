@@ -8,10 +8,9 @@
 </head>
 
 <body>
-    <!-- {{#if message}} -->
+    
     <div stype ="text-align: center" class="alert alert-{{message.type}}">
-        <!-- <button type="button" name="close" data-dismiss="alert">&times</button>
-        <strong>{{message.intro}}</strong> {{message.message}} -->
+       
     </div>
 
     <div class="container">
@@ -42,16 +41,32 @@
                 <button type="button" class="switch-btn" onclick="toggleLoginSignup('signup')">Sign Up</button>
             </div>
             <div class="form-container" id="signupForm">
+               
+                    
                 <h1>Signup</h1>
+                <div>
+               
+                   
+                
+                </div>
                 <form action="/register" method="post">
+                    
                     <input type="text" name="firstname" class="input-box" placeholder="First Name">
                     <input type="text" name="lastname" class="input-box" placeholder="Last Name">
                     <input type="text" name="username" class="input-box" placeholder="User Name">
                     <input type="email" name="email" class="input-box" placeholder="Email">
+                    <% if (!canAddNewMessage){ %>
+                        <p>Email was registered already!</p>
+                    <% } %>
                     <input type="password" name="password" class="input-box" placeholder="Password">
                     <input type="password" name="confirm_password" class="input-box" placeholder="Confirm Password">
+                    <% if (!canAddNewMessage1){ %>
+                        <p>Password doesn't match. Please Enter again!!</p>
+                    <% } %>
                     <input type="submit" name="signup-btn" class="btn" value="Sign Up">
+                 
                 </form>
+                
             </div>
         </section>
     </div>
