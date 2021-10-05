@@ -299,7 +299,9 @@ app.post('/getDecks', function(req,res) {
         let selectedCourse = req.body.selectedCourse;
         console.log(`selected Course:`, selectedCourse);
 
-        con.query(`SELECT courseID FROM Courses WHERE courseName = ?`, [selectedCourse], function (err, results) {
+        con.query(`SELECT deckName FROM Decks WHERE courseID= ? AND deckID = ?`, [userCourseID, userDeckID], function(err, results) {
+        if (err) throw err;
+        decks =[];, [selectedCourse], function (err, results) {
             if (err) {
                 res.render('/courses');
             }
@@ -360,10 +362,9 @@ app.post('/createDecks', function(req, res) {
 
 app.get('/decks', function(req,res) {
     
-    con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
+    con.query(`SELECT deckName FROM Decks WHERE courseID= ? AND deckID = ?`, [userCourseID, userDeckID], function(err, results) {
         if (err) throw err;
-        console.log(`Deck Results: ${results}`)
-        decks = [];
+        decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
         (results).forEach(x => {
             decks.push(x.deckName);
@@ -392,7 +393,7 @@ app.post('/getCards', function(req,res) {
         let selectedDeck = req.body.selectedDeck;
         console.log(`Selected Deck:`, selectedDeck);
 
-        con.query(`SELECT deckID FROM Decks WHERE deckName = ?`, [selectedDeck], function (err, results) {
+        con.query(`SELECT deckID FROM Decks WHERE deckName = ? AND courseID = ?`, [selectedDeck, userCourseID], function (err, results) {
             if (err) {
                 res.render('/decks');
             }
