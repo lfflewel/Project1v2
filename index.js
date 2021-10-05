@@ -3,12 +3,11 @@
 
 /* -- CONSTANTS ---------------------------------------------- */
 // These are constant variables required to run the poject
-const express = require('express');        
-const app = express();                     
-const mysql = require('mysql');             
+const express = require('express');
+const app = express();
+const mysql = require('mysql');
 const session = require('express-session');
 const exp = require('constants');
-
 
 // this to parse JSON data that gets retrieve from the data base
 app.use(express.urlencoded({ extended: true }));
@@ -64,7 +63,7 @@ let userDeckID;
 let userCardID;
 let decks;
 let cards;
-// let dictionary;
+
 
 /* ----------------------------------------------------------- */
 
@@ -73,17 +72,17 @@ let cards;
 
 /*
     NOTES:
-    (reference: 
+    (reference:
         - https://expressjs.com/en/guide/routing.html
         - https://masteringjs.io/tutorials/express/app-get)
-    
+
     APP.GET() ---> this is the route method used to serve the client request back to the website
         - you use this when you want to render a view (html page), retrieve something from the db etc...
         app = is just the var name we defined above ...(line 7)
-        
+
         ex --> app.get('/method', function(request, respond) {})
             -- the website front-end will listen for requests to '/method' and run the function when it sees one..GET THEN RETURN VALUE.
-            -- request, respond can also be abbrievated to req, res...these are just parameters 
+            -- request, respond can also be abbrievated to req, res...these are just parameters
             -- '/method' is what gets define inside action="" of <form> inside HTML
 
     APP.POST() ---> like the name say....this will send the client request back to the server
@@ -91,7 +90,7 @@ let cards;
             - INSERT to database
             - UPDATE to database
             - DELETE to database
-        
+
         ex ---> user creating new deck then saving / storing that into db (a call to the server)
 */
 
@@ -147,11 +146,11 @@ app.post('/login', (req, res) => {
                 // we will also assign that to a global variable above ---> in also case of needing to reference it in other methods below
                 userAccountID = results[0].accountID;
                 console.log(`Account ID: ${userAccountID}`);
-                
+
                 // redirect user to HOMEPAGE
                 res.redirect('/homepage');
-            } 
-            else 
+            }
+            else
             {
                 // TODO: Will find solutions to populate validation messages on HTML
                 // the complication to that rn is that the login screen has some animated feature...
@@ -214,7 +213,7 @@ app.post('/register', function(req, res) {
             console.log('Password not match!');
             res.redirect('/');
         } else {
-            // save dato into the database 
+            // save dato into the database
             con.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
             if (err) throw err;
             req.session.message = {
@@ -270,7 +269,7 @@ app.get('/courses', function(req, res) {
 app.post('/createcourses', function(req, res) {
     if (req.session.loggedin) {
         let courses =  req.body.course;
-      
+
         // so when we write sql query, ex: 'select * from table where id = #',
         // when it's a number / boolean, we don't wrap it around quotation ""
         // however, if we're specifying STRINGS, then we want to wrap it around quotations ""
@@ -299,17 +298,15 @@ app.post('/getDecks', function(req,res) {
         let selectedCourse = req.body.selectedCourse;
         console.log(`selected Course:`, selectedCourse);
 
-        con.query(`SELECT deckName FROM Decks WHERE courseID= ? AND deckID = ?`, [userCourseID, userDeckID], function(err, results) {
-        if (err) throw err;
-        decks =[];, [selectedCourse], function (err, results) {
+        con.query(`SELECT courseID FROM Courses WHERE courseName = ? AND accountID = ?`, [selectedCourse, userAccountID], function (err, results) {
             if (err) {
                 res.render('/courses');
             }
             else {
-                
+
                 userCourseID = results[0].courseID;
                 console.log(`User CourseID : ${userCourseID}`);
-                
+
                 res.redirect('/decks');
             }
 
@@ -324,7 +321,6 @@ app.post('/createDecks', function(req, res) {
         console.log(newDeck);
 
         let alreadyExists = false;
-
 
         decks.forEach(x => {
             if (x == newDeck)
@@ -341,27 +337,25 @@ app.post('/createDecks', function(req, res) {
                 }
                 else {
                     userDeckID = results.insertId
-                    console.log(`DeckID : ${userDeckID}`);    
+                    console.log(`DeckID : ${userDeckID}`);
                     console.log("Decks Inserted");
                     console.log(newDeck);
                     decks.push(newDeck);
-                    console.log(decks);
-    
-                    res.redirect('/decks');                    
+
+                    res.redirect('/decks');
+
                 }
-               
+
             })
         }
         else {
-
-           res.send('That deck already exists. Choose a differant Deck Name.');
-
+            res.send('FAILED');
         }
     }
 });
 
 app.get('/decks', function(req,res) {
-    
+
     con.query(`SELECT deckName FROM Decks WHERE courseID= ? AND deckID = ?`, [userCourseID, userDeckID], function(err, results) {
         if (err) throw err;
         decks =[];
@@ -408,7 +402,7 @@ app.post('/getCards', function(req,res) {
     }
 })
 
-// this create cards method, retrieve new card's ID, and store it as userCardID
+// this create cards1 method, retrieve new card's ID, and store it as userCardID
 
 app.post('/createCards', function(req, res) {
 
@@ -424,7 +418,7 @@ app.post('/createCards', function(req, res) {
                 console.log(err)
             }
             else {
-                userCardID = results.insertId
+                userCardID = results.insertId;
                 console.log(`User CardID : ${userCardID}`)
                 console.log(`Insert ID: ${userDeckID}`)
                 console.log("New Cards Inserted")
@@ -438,8 +432,6 @@ app.post('/createCards', function(req, res) {
     }
 })
 
-
-
 // display flashcard page after clicking submit -----> still works on
 
 app.get('/cards', function(req, res) {
@@ -447,21 +439,19 @@ app.get('/cards', function(req, res) {
     con.query(`SELECT cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
         if (err) throw err;
         cards =[];
-
+            
             (results).forEach(x => {
                 cards.push({
                     'Question' :x.cardQuestion,
                     'Answer' : x.cardAnswer})
             });
-
             
-            console.log("cards: " + cards);
-            
+  
+            console.log(results)
+            console.log(cards)
+            console.log(`CardQ: ${cards.Question}`)
+            console.log(`CardA: ${cards.Answer}`)
+            console.log(`UserCardID: ${userCardID}`)
             res.render('cards.html', {cards});
-       
-    }) 
+        }) 
 })
-
-// Display cards
-
-/* ----------------------------------------------------------- */
