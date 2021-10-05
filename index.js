@@ -63,7 +63,7 @@ let userCourseID;
 let userDeckID;
 let userCardID;
 let decks;
-let cards = [];
+let cards;
 // let dictionary;
 
 /* ----------------------------------------------------------- */
