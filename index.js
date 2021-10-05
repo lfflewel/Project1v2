@@ -63,7 +63,7 @@ let userDeckID;
 let userCardID;
 let decks;
 let cards;
-
+let canAddNewDeck;
 
 /* ----------------------------------------------------------- */
 
@@ -101,6 +101,16 @@ let cards;
 // -- start code below
 
 
+/* -- INVALID LOG IN SCREEN ---------------------------------- */
+app.get('/invalidLogin', function(req, res) {
+    res.render('invalidLoginScreen');
+})
+
+app.post('/goBackToLogin', function(req, res) {
+    res.redirect('/');
+})
+
+/* ----------------------------------------------------------- */
 
 
 
@@ -152,13 +162,11 @@ app.post('/login', (req, res) => {
             }
             else
             {
-                // TODO: Will find solutions to populate validation messages on HTML
-                // the complication to that rn is that the login screen has some animated feature...
-                res.send('Incorrect Username and/or Password!');
+                res.redirect('/invalidLogin');
             }
         });
     } else {
-        res.send('Please enter Username and Password!');
+        res.redirect('/invalidLogin');
     }
 });
 
@@ -167,6 +175,7 @@ app.get('/logout', function(req, res) {
     req.session.destroy();
     res.redirect('/');
 });
+
 /* ----------------------------------------------------------- */
 
 
@@ -268,20 +277,20 @@ app.get('/courses', function(req, res) {
 // CREATE A NEW COURSE
 app.post('/createcourses', function(req, res) {
     if (req.session.loggedin) {
-        let courses =  req.body.course;
+        let course =  req.body.course;
 
         // so when we write sql query, ex: 'select * from table where id = #',
         // when it's a number / boolean, we don't wrap it around quotation ""
         // however, if we're specifying STRINGS, then we want to wrap it around quotations ""
             // ex: select * from table where courseName = "CIS400" <--- hence why some have quotes some don't
 
-        con.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${courses}", ${userAccountID})`, function (err, results) {
+        con.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${course}", ${userAccountID})`, function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
                 console.log("Course Inserted");
-                res.render('courses.html');
+                res.redirect('/homepage');
             }
         })
     }
@@ -341,7 +350,7 @@ app.post('/createDecks', function(req, res) {
                     console.log("Decks Inserted");
                     console.log(newDeck);
                     decks.push(newDeck);
-
+                    canAddNewDeck = false
                     res.redirect('/decks');
 
                 }
@@ -349,15 +358,18 @@ app.post('/createDecks', function(req, res) {
             })
         }
         else {
-            res.send('FAILED');
+            
+            res.redirect('/decks')
+
         }
     }
 });
 
 app.get('/decks', function(req,res) {
-
-    con.query(`SELECT deckName FROM Decks WHERE courseID= ? AND deckID = ?`, [userCourseID, userDeckID], function(err, results) {
+    canAddNewDeck = true;
+    con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
+        
         decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
         (results).forEach(x => {
@@ -368,7 +380,7 @@ app.get('/decks', function(req,res) {
 
         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-        res.render('decks.html', {decks});
+        res.render('decks.html', {decks, canAddNewDeck});
     })
 })
 
@@ -387,9 +399,9 @@ app.post('/getCards', function(req,res) {
         let selectedDeck = req.body.selectedDeck;
         console.log(`Selected Deck:`, selectedDeck);
 
-        con.query(`SELECT deckID FROM Decks WHERE deckName = ? AND courseID = ?`, [selectedDeck, userCourseID], function (err, results) {
+        con.query(`SELECT deckID FROM Decks WHERE courseID = ? and deckName=?`, [userCourseID, selectedDeck], function (err, results) {
             if (err) {
-                res.render('/decks');
+                res.render('decks.html');
             }
             else {
                 userDeckID = results[0].deckID;
@@ -402,13 +414,13 @@ app.post('/getCards', function(req,res) {
     }
 })
 
-// this create cards1 method, retrieve new card's ID, and store it as userCardID
+// this create cards method, retrieve new card's ID, and store it as userCardID
 
 app.post('/createCards', function(req, res) {
 
     if (req.session.loggedin) {
-        let question = req.body.question
-        let answer = req.body.answer
+        let question = req.body.question;
+        let answer = req.body.answer;
 
         console.log(question);
         console.log(answer)
@@ -418,7 +430,7 @@ app.post('/createCards', function(req, res) {
                 console.log(err)
             }
             else {
-                userCardID = results.insertId;
+                userCardID = results.insertId
                 console.log(`User CardID : ${userCardID}`)
                 console.log(`Insert ID: ${userDeckID}`)
                 console.log("New Cards Inserted")
@@ -432,26 +444,26 @@ app.post('/createCards', function(req, res) {
     }
 })
 
-// display flashcard page after clicking submit -----> still works on
+// display flashcard page after clicking submit 
 
 app.get('/cards', function(req, res) {
     
     con.query(`SELECT cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
         if (err) throw err;
-        cards =[];
-            
-            (results).forEach(x => {
-                cards.push({
+        cards = [];    
+        (results).forEach(x => {
+            cards.push({
                     'Question' :x.cardQuestion,
                     'Answer' : x.cardAnswer})
             });
+            console.log(`User CardID1: ${userCardID}`)
+           
             
-  
-            console.log(results)
-            console.log(cards)
-            console.log(`CardQ: ${cards.Question}`)
-            console.log(`CardA: ${cards.Answer}`)
-            console.log(`UserCardID: ${userCardID}`)
             res.render('cards.html', {cards});
-        }) 
-})
+        })  
+}) 
+
+   
+
+
+/* ----------------------------------------------------------- */
