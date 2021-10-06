@@ -56,12 +56,12 @@
                     <input type="text" name="username" class="input-box" placeholder="User Name">
                     <input type="email" name="email" class="input-box" placeholder="Email">
                     <% if (!canAddNewMessage){ %>
-                        <p>Email was registered already!</p>
+                        <p style="color:red;">Email was registered already!</p>
                     <% } %>
                     <input type="password" name="password" class="input-box" placeholder="Password">
                     <input type="password" name="confirm_password" class="input-box" placeholder="Confirm Password">
                     <% if (!canAddNewMessage1){ %>
-                        <p>Password doesn't match. Please Enter again!!</p>
+                        <p style="color:red;">Password doesn't match. Please Enter again!!</p>
                     <% } %>
                     <input type="submit" name="signup-btn" class="btn" value="Sign Up">
                  
