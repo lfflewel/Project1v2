@@ -63,7 +63,7 @@ let userFirstName;
 let userLastName; 
 let userCourseID;
 let userDeckID;
-let userDeckName;
+
 let userCardID;
 let decks;
 let cards;
@@ -401,8 +401,6 @@ app.get('/decks', function(req,res) {
     pool.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
 
-        userDeckName = results[0].deckName;
-        console.log(userDeckName);
 
         decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
@@ -414,7 +412,7 @@ app.get('/decks', function(req,res) {
 
         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-        res.render('decks.html', {decks, canAddNewMessage, userDeckName});
+        res.render('decks.html', {decks, canAddNewMessage});
     })
 })
 
