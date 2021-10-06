@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    background: linear-gradient(149deg, rgba(185,168,255,1) 0%, rgba(214,234,255,1) 48%, rgba(255,225,124,1) 100%);
+    height: 100%;
 }
 
 body {
-    background: linear-gradient(156deg, rgba(232,190,254,1) 0%, rgba(255,255,255,1) 38%, rgba(255,222,163,1) 100%);
+
     margin: 30px;
 }
 
@@ -31,11 +39,15 @@ body {
 .desktop {
     width: 50%;
     background-color: #ffffff;
-    border-radius: 30px;
 }
 
-.cover-container {
-    background-color: #e8befe;
+#loginCover {
+    background-color: #ffe17c;
+}
+
+#signupCover {
+    background-color: #a298db;
+    color: #FFFFFF;
 }
 
 .cover-container,
@@ -47,16 +59,19 @@ body {
     justify-content: center;
 }
 
+input.input-box:first-child {
+    margin-top: 30px;
+}
+
 input.input-box {
-    min-width: 400px;
+    width: 350px;
     display: block;
-    margin: 20px;
-    padding: 15px 20px;
-    background-color: #ece7e7;
-    font-size: 20px;
-    border: none;
+    margin-bottom: 30px;
+    padding: 15px;
+    font-size: 18px;
+    border: 2px solid #1d1d1d;
+    border-radius: 20px;
     outline: none;
-    box-shadow: 15px 15px 25px #a8a8a8;
     transition: box-shadow 0.5s;
 }
 
@@ -65,33 +80,40 @@ input.input-box {
 }
 
 .switch-btn {
-    position: absolute;
-    bottom: 0;
-    font-size: 25px;
-    margin: 30vh;
+    font-size: 20px;
     padding: 10px 55px;
-    background-color: #f1a566;
-    color: #fff;
+    margin: 30px 0px;
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 5px;
     border: none;
     border-radius: 10px;
-    box-shadow: 15px 15px 25px #a8a8a8;
+    box-shadow: 5px 5px 20px #797979;
     transition: box-shadow 0.5s;
     outline: none;
+}
+
+#loginCover .switch-btn {
+    background-color: #a298db;
+}
+
+#signupCover .switch-btn {
+    background-color: #e8c757;
 }
 
 input[type=button],
 input[type=submit] {
     margin: auto;
-    padding: 10px 170px;
-    background-color: #04AA6D;
+    padding: 10px;
+    background-color: #71b9ff;
     color: #fff;
     border: none;
-    font-size: 25px;
+    font-size: 22px;
     border-radius: 10px;
-    box-shadow: 15px 15px 20px #a8a8a8;
     transition: box-shadow 0.5s;
     outline: none;
     cursor: pointer;
+    width: 350px;
 }
 
 .mobile {
@@ -121,13 +143,13 @@ input[type=submit] {
 }
 
     #signup-section h1 {
-        color: black;
         font-size: 50px;
     }
 
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
