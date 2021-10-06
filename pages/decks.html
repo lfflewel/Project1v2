@@ -5,163 +5,279 @@
     <head>
       <meta charset="utf-8">
       <link rel="stylesheet" href="styles.css">
-      <title>Deck Selector</title>
+      <title>Decksr</title>
 	  <style>
-body {
-            background: linear-gradient(149deg, rgba(185,168,255,1) 0%, rgba(214,234,255,1) 48%, rgba(255,225,124,1) 100%);
-            background-repeat:no-repeat;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        h1, h3 {
-            font-size: 25px;
-            text-align: center;
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        html, body {
+            height: 100%;
+        }
+        body {
+            background: linear-gradient(149deg, rgba(185,168,255,1) 0%, rgba(214,234,255,1) 48%, rgba(255,225,124,1) 100%);
+            margin: 0;
+            display: flex;
         }
         p {
-            text-align: center;
-            font-size: 25px;
+            margin-bottom: 0;
+            font-family: 'Montserrat-Thin', sans-serif;
         }
-
-        .dropdown-info {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-          
-        }
-
-        select{
-      
-            display: block;
-            margin-left: 10vw;
-            font-size: 25px;
-            text-align: center;
-            float:right;
-            background-color: #a298db;
-            padding: 15px;
-        }
-
-
-
-        select:hover{
-            background-color: #f3dcff;
-        }
-
-
-        input {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            }
-        
-        input[type=submit] {
-            margin: auto;
-            padding: 10px 170px;
-            background-color: #71b9ff;
-            color: #fff;
-            border: none;
-            font-size: 25px;
-            border-radius: 10px;
-            box-shadow: 15px 15px 20px #a8a8a8;
-            transition: box-shadow 0.5s;
-            outline: none;
-            cursor: pointer;
-            }    
-        
-        nav ul {
-            display: flex;
-            justify-content: space-between;
+        ul {
             list-style-type: none;
+            margin: 0;
+            padding: 0;
         }
 
-        textarea {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            padding-right: 100px;
-        }
-
-        .body-container{
+        .container{
             width: 80%;
-            box-shadow: 0px 0px 45px #a8a8a8;
             border-radius: 30px;
             height: 93vh;
             margin: auto;
-            font-size: 50px;
+            padding: 50px 80px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .navigation-container{
-                width: 80%;
-                display: flex;
-                flex-direction: row;
-                box-shadow: 0px 0px 45px #a8a8a8;
-                border-radius: 30px;
-                height: 5vh;
-                margin: auto;
-            }
+        .container .top {
+            margin: 5px;
+            width: 100%;
+            height: 30%;
+            display: flex;
+            flex-direction: row;
+        }
 
-            .navigation-buttons{
-                margin: auto;
-                padding: 10px 20px;
-                background-color: #71b9ff;
-                color: #fff;
-                border: none;
-                font-size: 2vh;
-                border-radius: 2vh;
-                box-shadow: 15px 15px 20px #a8a8a8;
-                transition: box-shadow 0.5s;
-                outline: none;
+        .container .bottom {
+            margin: 5px;
+            width: 100%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            align-self: center;
+            align-items: center;
+        }
+
+        #pageText {
+            padding: 20px 30px;
+            border-radius: 20px;
+            color: rgb(22, 22, 22);
+            width: 100%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #navigation {
+            height: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #pageText h5 {
+            letter-spacing: 10px;
+            font-size: 35px;
+            margin: 0;
+        }
+
+        #pageText p {
+            font-size: 20px;
+        }
+
+        #welcomeText{
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+        }
+
+            #navigation button {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                width: 130px;
+                height: 130px;
+                border-radius: 15px;
+                background-color: transparent;
+                border: 0;
+                outline: 0;
                 cursor: pointer;
             }
 
-            .navigation-buttons:hover{
-                background-color: #f1a566;
+            #navigation button img {
+                width: 60px;
+                margin-bottom: 10px;
             }
 
+            #navigation button span {
+                font-size: 15px;
+                font-weight: bold;
+            }
+        
+        .newDeckContainer {
+            width: 50%;
+            background-color: transparent;
+        }
+
+        form {
+            margin: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        textarea {
+            width: 50%;
+            height: 60px;
+            font-size: 25px;
+            text-align: center;
+            border: 0;
+        }
+
+        #createBtn {
+            padding: 10px;
+            height: 60px;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 5px;
+            border: 0;
+            background-color: #ffe284;
+            cursor: pointer;
+        }
+
+        #createBtn:hover {
+            background-color: #181818;
+            color: #FFFFFF;
+        }
+
+        #validateMsg {
+            text-align: center;
+            font-weight: bold;
+            color: #fa4646;
+        }
+
+        /* Deck List Container */
+        .deckListContainer {
+            margin-top: 50px;
+            width: 80%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-self: center;
+            align-items: center;
+            overflow-y: scroll;
+            padding-bottom: 30px;
+            height: 500px;
+            flex-wrap: wrap;
+        }
+
+        .deckContainer {
+            display: flex;
+            flex-direction: column;
+            width: 16em;
+            height: auto;
+        }
+
+        .deckContainer button {
+            height: 12em;
+            cursor: pointer;
+            border: 0;
+        }
+
+        .deckContainer #selectDeckBtn {
+            background-color: #FFFFFF;
+        }
+        
+        .deckContainer #selectDeckBtn:hover {
+            box-shadow: 2px 2px 5px #797979;
+            border: 1px solid black;
+        }
+
+        .deckContainer #deleteDeckBtn {
+            background-color: #fa4646;
+            color: #FFFFFF;
+            height: 30px;
+        }
+
+        .deckContainer #deleteDeckBtn:hover {
+            background-color: #141414;
+            font-size: 15px;
+        }
+
+        ::-webkit-scrollbar {
+            background: #FFFFFF;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #5eb1ff;
+            border-radius: 20px;
+        }
 	</style>
    
 </head>
-
-    <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
-    <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">Home</button>
-    <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Courses</button>
-    <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
-    </div>
     <body>
-        <main>
-
-            <section class="body-container">
-                <h1>Deck Creator</h1>
-                    <p>To create a deck for the selected course, type the deck name in the field below and click the create deck button</p>
-                        <form action="/createdecks" method="POST">
-                            <h3>Deck Name</h3>
-                            <textarea name ="newDeck" id="decks"></textarea>
-                            <br>
-                            <nav>
-                                <input type="submit" name="createdecks" value="Create New Deck">
-                            </nav>
-                        </form>        
-                <div>
-                    <% if (!canAddNewMessage){ %>
-                        <p>Deck Exists. Please Create Anther One!</p>
-                    <% } %>
-                    
+        <div class="container">
+            <div class="top">
+                <div id="pageText">
+                    <h5>DECKS</h5>
+                    <p>To create a deck for the selected course, type the deck name in the field below and click the create deck button.</p>
+                    <p>You can also select an exisiting deck of your choice.</p>
                 </div>
-
-                <form action="/getCards" class="dropdown-info" method="POST">
-                    <span display:inline >Select a deck </span>
-                    
-                    <select id="selectedDeck" name="selectedDeck" onchange="this.form.submit()">
-                        <option value="0">Select Deck</option>
-                        <% for (var i=0; i < decks.length; i++) { %>
-                            <option value="<%= decks[i] %>"><%= decks[i] %></option>
-                        <% } %>    
-                    </select>
-                </form>
-            </section>
-            
-
-        </main>
+                <div id="navigation">
+                    <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">
+                        <img src="./homeIcon.png">
+                        <span>HOME</span>
+                    </button>
+                    <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">
+                        <img src="./logOutIcon.png">
+                        <span>LOG OUT</span>
+                    </button>
+                </div>
+            </div>
+            <div class="bottom">
+                <%= userDeckName %>
+                <div class="newDeckContainer">
+                    <form action="/createdecks" method="POST">
+                        <input type="submit" id="createBtn" name="createdecks" value="Create">
+                        <textarea name ="newDeck" id="decks"></textarea>
+                    </form>
+                    <% if (!canAddNewMessage){ %>
+                        <p id="validateMsg">Deck Exists. Please Create Another One!</p>
+                    <% } %>   
+                </div>
+                <div class="deckListContainer">
+                    <% for (var i=0; i < decks.length; i++) { %>
+                        <form action="/abc" method="POST">
+                            <input type="hidden" name="selectedDeck" value="<%= decks[i] %>">
+                            <div class="deckContainer">
+                                <button id="deleteDeckBtn" type="submit" formaction="/deleteDeck">X</button>
+                                <button type="submit" id="selectDeckBtn" formaction="/getCards">
+                                        <h3><%= decks[i] %></h3>
+                                </button>
+                            </div>
+                        </form>
+                    <% } %>    
+                </div>
+            </div>
+        </div>
 
 		<script src="index.js"></script>
     </body>
