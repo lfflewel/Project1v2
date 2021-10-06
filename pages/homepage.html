@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>DASH BOARD</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
         * {
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         .row {
@@ -21,6 +23,7 @@
         body {
             background: linear-gradient(149deg, rgba(185,168,255,1) 0%, rgba(214,234,255,1) 48%, rgba(255,225,124,1) 100%);
             margin: 0;
+            display: flex;
         }
         p {
             margin-bottom: 0;
@@ -32,13 +35,63 @@
             padding: 0;
         }
 
-        .body-container{
+        .container{
             width: 80%;
-            box-shadow: 0px 0px 45px #a8a8a8;
             border-radius: 30px;
             height: 93vh;
             margin: auto;
-            font-size: 50px;
+            padding: 50px 80px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container .top {
+            margin: 5px;
+            width: 100%;
+            height: 200px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .container .bottom {
+            margin: 5px;
+            width: 80%;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 50px;
+            align-self: center;
+        }
+
+        #greetings {
+            padding: 20px 30px;
+            border-radius: 20px;
+            color: rgb(22, 22, 22);
+            width: 100%;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #navigation {
+            height: 200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #greetings h5 {
+            letter-spacing: 10px;
+            font-size: 35px;
+            margin: 0;
+        }
+
+        #greetings p {
+            font-size: 20px;
         }
 
         #welcomeText{
@@ -49,71 +102,163 @@
             font-size: 25px;
         }
 
-        select{
-            margin-top: 43vh;
-            display: block;
-            margin-right: 14vw;
-            font-size: 25px;
-            padding: 15px;
+        #createNewCourse {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #createNewCourse #newCourseBtn {
+            width: 300px;
+            height: 200px;
+            background-color: #ffda62;
+            border: 0;
+            box-shadow: 0;
+            padding: 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            font-size: 20px;
+            box-shadow: 5px 5px 20px #797979;
+        }
+
+        #existingCourses {
+            margin-top: 20px;
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
             text-align: center;
+        }
+
+        #existingCourses h5 {
+            color: #1b1b1b;
+            letter-spacing: 10px;
+            font-size: 35px;
+            margin: 0px 0px 30px 0px;
+        }
+
+        #dropdownList {
+            width: 90%;
+        }
+
+        select{
+            display: block;
+            margin-right: 20vw;
+            font-size: 20px;
+            text-align: center;
+            border: 0;
+            padding: 15px;
+            width: 100%;
+            appearance: none;
+            outline: none;
+            box-shadow: 0;
             background-color: #a298db;
-            
+            color: #FFFFFF;
         }
 
-        select:hover{
-            background-color: #f3dcff;
+        select::-ms-expand {
+            display: none;
         }
 
 
-        /* Start Aside */
-        aside {
-            top: 0;
-            left: 0;
-            bottom: 0;
-            overflow-x: hidden;
-        }
-
-            aside .navigation-container{
-                width: 80%;
+            #navigation button {
                 display: flex;
-                flex-direction: row;
-                box-shadow: 0px 0px 45px #a8a8a8;
-                border-radius: 30px;
-                height: 5vh;
-                margin: auto;
-            }
-
-            aside .navigation-bar{
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-                width: 20%;
-                flex-direction: row;
-                box-shadow: 0px 0px 45px #a8a8a8;
-                border-radius: 30px;
-                height: 10vh;
-                margin: auto;
-                float: center;
-            }
-
-            aside .navigation-buttons{
-                margin: auto;
-                padding: 10px 20px;
-                background-color: #71b9ff;
-                color: #fff;
-                border: none;
-                font-size: 2vh;
-                border-radius: 2vh;
-                box-shadow: 15px 15px 20px #a8a8a8;
-                transition: box-shadow 0.5s;
-                outline: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                width: 130px;
+                height: 130px;
+                border-radius: 15px;
+                background-color: transparent;
+                border: 0;
+                outline: 0;
                 cursor: pointer;
             }
 
-            aside .navigation-buttons:hover{
-                background-color: #f1a566;
+            #navigation button img {
+                width: 60px;
+                margin-bottom: 10px;
             }
-        /* End Aside */
 
+            #navigation button span {
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            .courseContainer button {
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 0;
+            }
+
+            .courseContainer #selectCourseBtn {
+                width: 85%;
+                background-color: #FFFFFF;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+
+            .courseContainer #deleteCourseBtn {
+                width: 8%;
+                background-color: #71b9ff;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+
+            .courseContainer #deleteCourseBtn:hover {
+                background-color: #161616;
+                color: #FFFFFF;
+            }
+
+            .courseContainer #selectCourseBtn:hover {
+                background-color: #fbd453;
+            }
+
+        /* Courses */
+        .courseList {
+            width: 100%;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        .courseList .courseContainer {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .bottom #createNewCourseBtn {
+            background-color: transparent;
+            border: 0;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.6em;
+            cursor: pointer;
+        }
+
+        .bottom #createNewCourseBtn:hover {
+            color: #a298db;
+        }
+
+        ::-webkit-scrollbar {
+            background: #FFFFFF;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #a298db;
+            border-radius: 20px;
+        }
+            
         /* Start Main */
         h1 {
             margin: auto;
@@ -125,35 +270,64 @@
 
 </head>
 <body>
-    <div>
-        <aside>
-            <div class="navigation-container" style="margin-top: 10px; margin-bottom: 10px;">
-                <button type="button" class="navigation-buttons" onclick="location.href = '/courses'">Create new course</button>
-                <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">LOGOUT</button>
+    <div class="container">
+        <div class="top">
+            <div id="greetings">
+                <h5>HELLO THERE!</h5>
+                <p><b>Welcome, <%= userFirstName %> <%= userLastName %>!</b></p>
+                <p>Please select a course to begin or create a new course.</p>
             </div>
-        </aside>
-    </div>  
-    <div>
-        <main>
-            <section class="body-container">
-                <h1 id="welcomeText">Welcome! Please select a course or create a new course!</h1>
-                <h1>Course Selection</h1>
+            <div id="navigation">
+                <button type="button" class="navigation-buttons" onclick="location.href = '/homepage'">
+                    <img src="./homeIcon.png">
+                    <span>HOME</span>
+                </button>
+                <!-- <button type="button" class="navigation-buttons" onclick="location.href = '/game'">
+                    <img src="./gameIcon.png">
+                    <span>GAME</span>
+                </button> -->
                 
-                <form action="/getDecks" method="POST">
-                    
-                    <select id="selectedCourse" name="selectedCourse" onchange="this.form.submit()">
-                        <option value="0">Select Course</option>
-                        <% for (var i=0; i < courses.length; i++) { %>
-                            <option value="<%= courses[i] %>"><%= courses[i] %></option>
-                        <% } %>    
-                    </select>
-                </form>
-            </section>
-        </main>
+                <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">
+                    <img src="./logOutIcon.png">
+                    <span>LOG OUT</span>
+                </button>
+            </div>
+        </div>
+        <div class="bottom">
+            <button type="button" class="navigation-buttons" id="createNewCourseBtn" onclick="location.href = '/courses'">
+                CREATE A NEW COURSE
+            </button>
+            <h2>YOUR COURSES:</h2>
+            <div class="courseList">
+                <% for (var i=0; i < courses.length; i++) { %>
+                    <form action="/abc" method="POST">
+                        <input type="hidden" name="selectedCourse" value="<%= courses[i] %>">
+                        <div class="courseContainer">
+                            <button id="deleteCourseBtn" type="submit" formaction="/deleteCourse">X</button>
+                            <button type="submit" id="selectCourseBtn" formaction="/getDecks">
+                                    <h4><%= courses[i] %></h4>
+                            </button>
+                        </div>
+                    </form>
+                <% } %>    
+            </div>
+        </div>
+        <!-- <div class="right">
+            <div id="existingCourses">
+                <h5>COURSE<br>SELECTION:</h5>
+                <div id="dropdownList">
+                    <form action="/getDecks" method="POST">
+                        <select id="selectedCourse" name="selectedCourse" onchange="this.form.submit()">
+                            <option value="0">Select Course</option>
+                            <% for (var i=0; i < courses.length; i++) { %>
+                                <option value="<%= courses[i] %>"><%= courses[i] %></option>
+                            <% } %>    
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div> -->
     </div>
-   
-        
-    </main>
     <script src="index.js"></script> 
 </body>
 </html>
