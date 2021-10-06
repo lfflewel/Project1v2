@@ -269,7 +269,7 @@ input[type="submit" i] {
       <div id="flashcards" style="height:87vh">
        
         <% for (var i = 0; i < cards.length; i++) { %>
-          <form method="POST" action="/deletecards"></form>
+          <form method="POST" action="/deletecards">
           <div class="flashcard">
             <div style="height: 20vh" class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><%= cards[i].Question %></div>
             <div  style="height: 20vh" class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><%= cards[i].Answer %></div>
