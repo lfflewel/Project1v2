@@ -8,6 +8,7 @@ const app = express();
 const mysql = require('mysql');
 const session = require('express-session');
 const exp = require('constants');
+const { Console } = require('console');
 
 // this to parse JSON data that gets retrieve from the data base
 app.use(express.urlencoded({ extended: true }));
@@ -58,12 +59,14 @@ console.log('Website Sever Is Running on Port 3000. Access via LOCALHOST:3000');
 // camelCase coding convention
 
 let userAccountID;
+let userFirstName;
+let userLastName; 
 let userCourseID;
 let userDeckID;
+let userDeckName;
 let userCardID;
 let decks;
 let cards;
-let dictionary;
 let canAddNewMessage = true;
 let canAddNewMessage1 = true;
 /* ----------------------------------------------------------- */
@@ -156,6 +159,8 @@ app.post('/login', (req, res) => {
 
                 // we will also assign that to a global variable above ---> in also case of needing to reference it in other methods below
                 userAccountID = results[0].accountID;
+                userFirstName = results[0].firstName;
+                userLastName = results[0].lastName;
                 console.log(`Account ID: ${userAccountID}`);
 
                 // redirect user to HOMEPAGE
@@ -201,7 +206,7 @@ app.post('/register', function(req, res) {
     console.log(password)
     console.log(confirm_password)
 
-    pool.query('SELECT * FROM Accounts WHERE email = ?', [email], function(err, results, fields) {
+    pool.query('SELECT * FROM Accounts WHERE email = ?' , [email], function(err, results, fields) {
         if (err) throw err;
 
         if (results.length > 0) {
@@ -217,7 +222,8 @@ app.post('/register', function(req, res) {
             console.log('Password not match!');
             res.redirect('/');
 
-        } else {
+        }
+        else {
             // save dato into the database
             pool.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
                 if (err) throw err;
@@ -238,6 +244,7 @@ app.post('/register', function(req, res) {
 /* -- HOMEPAGE ----------------------------------------------- */
 app.get('/homepage', function (req, res) {
     if (req.session.loggedin) {
+        canAddNewMessage = true;
         // Do whatever needed / whatever to be display when upon rendering the homepage
 
         // 1. get courses from the database --> then store into our Courses list --> to display in a dropdown HTML list
@@ -254,7 +261,7 @@ app.get('/homepage', function (req, res) {
 
             // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
             // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-            res.render('homepage.html', {courses});
+            res.render('homepage.html', {courses, userFirstName, userLastName});
         });
     }
 });
@@ -290,6 +297,20 @@ app.post('/createcourses', function(req, res) {
         })
     }
 });
+
+app.post('/deleteCourse', function(req, res) {
+    if (req.session.loggedin) {
+        pool.query('DELETE FROM Courses WHERE courseName = ? AND accountID = ?', [req.body.selectedCourse, userAccountID], function (err, results) {
+            if (err) {
+                throw err;
+            }
+            else {
+                console.log(`Course deleted: ${req.body.selectedCourse}`);
+                res.redirect('/homepage');
+            }
+        });
+    }
+})
 /* ----------------------------------------------------------- */
 
 /* -- DECK PAGE ---------------------------------------------- */
@@ -330,7 +351,7 @@ app.post('/createDecks', function(req, res) {
             if (x == newDeck)
             {
                 alreadyExists = true;
-                
+                canAddNewMessage = false;
             }
         });
 
@@ -341,6 +362,7 @@ app.post('/createDecks', function(req, res) {
                     console.log(err);
                 }
                 else {
+                    
                     userDeckID = results.insertId
                     console.log(`DeckID : ${userDeckID}`);
                     console.log("Decks Inserted");
@@ -360,10 +382,28 @@ app.post('/createDecks', function(req, res) {
     }
 });
 
+app.post('/deleteDeck', function(req, res) {
+    if (req.session.loggedin) {
+        pool.query('DELETE FROM Decks WHERE deckName = ? AND courseID = ?', [req.body.selectedDeck, userCourseID], function (err, results) {
+            if (err) {
+                throw err;
+            }
+            else {
+                console.log(`Deck deleted: ${req.body.selectedDeck}`);
+                res.redirect('/decks');
+            }
+        });
+    }
+})
+
 app.get('/decks', function(req,res) {
 
     pool.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
+
+        userDeckName = results[0].deckName;
+        console.log(userDeckName);
+
         decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
         (results).forEach(x => {
@@ -374,7 +414,7 @@ app.get('/decks', function(req,res) {
 
         // when rendering a page, we can also pass in variables to be reference directly on the HTML using <%= .... %> syntax
         // we would pass the variables in like res.render('page.html', {var}) --> can also pass multiple vars with commas
-        res.render('decks.html', {decks, canAddNewMessage});
+        res.render('decks.html', {decks, canAddNewMessage, userDeckName});
     })
 })
 
@@ -438,7 +478,7 @@ app.post('/createCards', function(req, res) {
     }
 })
 
-// display flashcard page after clicking submit 
+// display flashcard page after clicking submit -----> still works on
 
 app.get('/cards', function(req, res) {
     
@@ -448,8 +488,6 @@ app.get('/cards', function(req, res) {
         cards = [];    
         (results).forEach(x => {
             console.log(x.cardID)
-
-            // Add cardID in the array so that we can retrieve cardID
             cards.push({
                     'cardID': x.cardID,
                     'Question' :x.cardQuestion,
@@ -466,30 +504,23 @@ app.get('/cards', function(req, res) {
 // DELETE THE FLASHCARDS
 
 app.post('/deletecards', function(req, res) {
-
-        //  DELETE FUNCTION 
-        // Delete from the Cards table where CardID is the selected cardID that is passed in when we click delete
-    
         pool.query(`DELETE FROM Cards WHERE cardID = ?`, [req.body.cardID],  function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
-                    // remove element from array 
                     const index = cards.indexOf(x => x.cardID === req.body.cardID);
-
-                    // Removing Array Items By Value
-                    // index as a start element, and remove just 1 element
+                    console.log(index);
                     cards.splice(index, 1);
-                    console.log(`Delete Card: ${results}`)
-                 
+
+                    console.log(cards);
+
                     res.redirect('/cards');
-                    
+                    console.log(`Deleted Record : ${results}`)
             }
         
          })
 })
-
 
    
 
