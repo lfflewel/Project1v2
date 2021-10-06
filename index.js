@@ -29,7 +29,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 // DEFINE THE SQL CONNECTION - given by our prof
-var con = mysql.createConnection({
+var pool = mysql.createPool({
     host: "107.180.1.16",
     port: "3306",
     user: "fall2021group6",
@@ -39,7 +39,7 @@ var con = mysql.createConnection({
 
 // Calling the variable above and connecting the db
 // IF connect, terminal will say "Connection establish..."
-con.connect(function(err) {
+pool.query('select 1+1', (err, results) => {
     if (err) {
         console.log('Error connecting to Db');
         return;
@@ -141,7 +141,7 @@ app.post('/login', (req, res) => {
 
         // call to db --> pass in the username && passwod as the parameters [] for the QUERY string below
         // inside the query statement, we also define a function that will handle the error, results from the SQL query
-        con.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function (err, results) {
+        pool.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function (err, results) {
             if (err) throw err;
 
             if (results.length > 0) {
@@ -201,7 +201,7 @@ app.post('/register', function(req, res) {
     console.log(password)
     console.log(confirm_password)
 
-    con.query('SELECT * FROM Accounts WHERE email = ?', [email], function(err, results, fields) {
+    pool.query('SELECT * FROM Accounts WHERE email = ?', [email], function(err, results, fields) {
         if (err) throw err;
 
         if (results.length > 0) {
@@ -219,7 +219,7 @@ app.post('/register', function(req, res) {
 
         } else {
             // save dato into the database
-            con.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
+            pool.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
                 if (err) throw err;
                 canAddNewMessage = true;
                 canAddNewMessage1 = true;
@@ -241,7 +241,7 @@ app.get('/homepage', function (req, res) {
         // Do whatever needed / whatever to be display when upon rendering the homepage
 
         // 1. get courses from the database --> then store into our Courses list --> to display in a dropdown HTML list
-        con.query(`SELECT courseName FROM Courses WHERE accountID= ?`, [userAccountID], function(err, results) {
+        pool.query(`SELECT courseName FROM Courses WHERE accountID= ?`, [userAccountID], function(err, results) {
             if (err) throw err;
 
             let courses = [];
@@ -279,7 +279,7 @@ app.post('/createcourses', function(req, res) {
         // however, if we're specifying STRINGS, then we want to wrap it around quotations ""
             // ex: select * from table where courseName = "CIS400" <--- hence why some have quotes some don't
 
-        con.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${course}", ${userAccountID})`, function (err, results) {
+        pool.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${course}", ${userAccountID})`, function (err, results) {
             if (err) {
                 console.log(err);
             }
@@ -302,7 +302,7 @@ app.post('/getDecks', function(req,res) {
         let selectedCourse = req.body.selectedCourse;
         console.log(`selected Course:`, selectedCourse);
 
-        con.query(`SELECT courseID FROM Courses WHERE courseName = ? AND accountID = ?`, [selectedCourse, userAccountID], function (err, results) {
+        pool.query(`SELECT courseID FROM Courses WHERE courseName = ? AND accountID = ?`, [selectedCourse, userAccountID], function (err, results) {
             if (err) {
                 res.render('/courses');
             }
@@ -330,13 +330,13 @@ app.post('/createDecks', function(req, res) {
             if (x == newDeck)
             {
                 alreadyExists = true;
-                canAddNewMessage = false;
+                
             }
         });
 
         if (!alreadyExists)
         {
-            con.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${newDeck}", ${userCourseID})`, function (err, results) {
+            pool.query(`INSERT INTO Decks (deckName, courseID) VALUES ("${newDeck}", ${userCourseID})`, function (err, results) {
                 if (err) {
                     console.log(err);
                 }
@@ -362,7 +362,7 @@ app.post('/createDecks', function(req, res) {
 
 app.get('/decks', function(req,res) {
 
-    con.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
+    pool.query(`SELECT deckName FROM Decks WHERE courseID= ?`, [userCourseID], function(err, results) {
         if (err) throw err;
         decks =[];
         // for each row retrieved from the Deck list in the db, iterate through to add to our new deck variable
@@ -393,7 +393,7 @@ app.post('/getCards', function(req,res) {
         let selectedDeck = req.body.selectedDeck;
         console.log(`Selected Deck:`, selectedDeck);
 
-        con.query(`SELECT deckID FROM Decks WHERE courseID = ? AND deckName = ?`, [userCourseID, selectedDeck], function (err, results) {
+        pool.query(`SELECT deckID FROM Decks WHERE courseID = ? AND deckName = ?`, [userCourseID, selectedDeck], function (err, results) {
             if (err) {
                 res.render('/decks');
             }
@@ -419,7 +419,7 @@ app.post('/createCards', function(req, res) {
         console.log(question);
         console.log(answer)
 
-        con.query(`INSERT INTO Cards (cardQuestion, cardAnswer, deckID) VALUES ("${question}", "${answer}", ${userDeckID})`, function (err, results) {
+        pool.query(`INSERT INTO Cards (cardQuestion, cardAnswer, deckID) VALUES ("${question}", "${answer}", ${userDeckID})`, function (err, results) {
             if (err) {
                 console.log(err)
             }
@@ -438,16 +438,18 @@ app.post('/createCards', function(req, res) {
     }
 })
 
-// display flashcard page after clicking submit -----> still works on
+// display flashcard page after clicking submit 
 
 app.get('/cards', function(req, res) {
     
-    con.query(`SELECT cardID, cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
+    pool.query(`SELECT cardID, cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
         if (err) throw err;
        
         cards = [];    
         (results).forEach(x => {
             console.log(x.cardID)
+
+            // Add cardID in the array so that we can retrieve cardID
             cards.push({
                     'cardID': x.cardID,
                     'Question' :x.cardQuestion,
@@ -465,29 +467,30 @@ app.get('/cards', function(req, res) {
 
 app.post('/deletecards', function(req, res) {
 
-        con.query(`DELETE FROM Cards WHERE cardID = ?`, [req.session.cardID],  function (err, results) {
+        //  DELETE FUNCTION 
+        // Delete from the Cards table where CardID is the selected cardID that is passed in when we click delete
+    
+        pool.query(`DELETE FROM Cards WHERE cardID = ?`, [req.body.cardID],  function (err, results) {
             if (err) {
                 console.log(err);
             }
             else {
-                    const index = cards.indexOf(x => x.cardID === req.session.cardID);
+                    // remove element from array 
+                    const index = cards.indexOf(x => x.cardID === req.body.cardID);
+
+                    // Removing Array Items By Value
+                    // index as a start element, and remove just 1 element
                     cards.splice(index, 1);
-                    console.log(`New Card: ${cards}`)
+                    console.log(`Delete Card: ${results}`)
+                 
                     res.redirect('/cards');
-                    console.log(`Deleted Record : ${results}`)
+                    
             }
         
          })
 })
 
-app.get('/deletecards', function(req, res) {
-    if (err) throw err;
-    con.query(`SELECT cardID, cardQuestion, cardAnswer from Cards WHERE deckID = ?`, [userDeckID], function (err, results) {
-        if (err) throw err;
-        
-        res.redirect('/cards');
-    })
-})
+
    
 
 
