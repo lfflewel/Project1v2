@@ -152,9 +152,8 @@ ul {
       width: 100%;
       overflow-x: scroll;
       overflow-y: hidden;
-      white-space:nowrap;
       display: flex;
-      flex-direction: row;
+      justify-content: center;
     }
 
     .flashcard {
@@ -165,8 +164,9 @@ ul {
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
+      word-wrap: break-word;
+      justify-content: flex-start;
+      align-items: flex-start;
       cursor: pointer;
     }
 
@@ -189,6 +189,7 @@ ul {
       height: 100%;
       border-radius: 10px;
       overflow: hidden;
+      word-wrap: break-word;
     }
 
     .flashcard .answerSide {
@@ -203,6 +204,7 @@ ul {
       text-align: center;
       height: 100%;
       font-size: 18px;
+      word-wrap:break-word;
     }
 
     .hide {
@@ -290,6 +292,10 @@ ul {
           <img src="./decksIcon.png">
           <span>DECKS</span>
         </button>
+        <!-- <button type="button" class="navigation-buttons" onclick="location.href = '/game'">
+          <img src="./gameIcon.png">
+          <span>GAME</span>
+        </button> -->
         <button type="button" class="navigation-buttons" onclick="location.href = '/logout'">
             <img src="./logOutIcon.png">
             <span>LOG OUT</span>
@@ -316,7 +322,7 @@ ul {
             <button class="deleteBtn" type="submit">X</button>
             <div class="flashcard">
                 <div class="questionSide" id="question-<%= i %>" onclick="toggleFlashCard('question', '<%= i %>')"><p><%= cards[i].Question %></p></div>
-                <div class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><p><%= cards[i].Answer %></p></div>
+                <div  class="answerSide hide" id="answer-<%= i %>" onclick="toggleFlashCard('answer', '<%= i %>')"><p><%= cards[i].Answer %></p></div>
                 <input name="cardID" type="hidden" value="<%= cards[i].cardID %>"></input>
             </div>
         </form>
