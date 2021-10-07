@@ -65,10 +65,12 @@ let userCourseID;
 let userDeckID;
 
 let userCardID;
+let courses;
 let decks;
 let cards;
 let canAddNewMessage = true;
 let canAddNewMessage1 = true;
+let canAddNewMessage2 = true;
 /* ----------------------------------------------------------- */
 
 
@@ -123,7 +125,7 @@ app.post('/goBackToLogin', function(req, res) {
 // since this is main page upon loading website, we can just define '/' as the request / route
 app.get('/', function(req, res) {
     // res.render('page') will render the html to localhost:3000
-    res.render('login', {canAddNewMessage, canAddNewMessage1});
+    res.render('login', {canAddNewMessage, canAddNewMessage1, canAddNewMessage2});
   });
 
 
@@ -211,7 +213,7 @@ app.post('/register', function(req, res) {
 
         if (results.length > 0) {
             canAddNewMessage = false;
-
+            
             res.redirect('/');
             console.log('Email was existed already');
         }
@@ -219,6 +221,7 @@ app.post('/register', function(req, res) {
         else if (confirm_password != password) {
 
             canAddNewMessage1 = false;
+            
             console.log('Password not match!');
             res.redirect('/');
 
@@ -227,9 +230,9 @@ app.post('/register', function(req, res) {
             // save dato into the database
             pool.query(`INSERT INTO Accounts (firstname, lastname, email, username, password, createdDate) VALUES ("${firstname}", "${lastname}","${email}", "${username}","${password}", NOW())`, function (err, results) {
                 if (err) throw err;
-                canAddNewMessage = true;
+                canAddNewMessage2 = false;
                 canAddNewMessage1 = true;
-
+                canAddNewMessage = true;
                 console.log('record inserted')
                 res.redirect('/')
             });
@@ -244,14 +247,15 @@ app.post('/register', function(req, res) {
 /* -- HOMEPAGE ----------------------------------------------- */
 app.get('/homepage', function (req, res) {
     if (req.session.loggedin) {
-        canAddNewMessage = true;
+        // canAddNewMessage = true;
         // Do whatever needed / whatever to be display when upon rendering the homepage
 
         // 1. get courses from the database --> then store into our Courses list --> to display in a dropdown HTML list
         pool.query(`SELECT courseName FROM Courses WHERE accountID= ?`, [userAccountID], function(err, results) {
             if (err) throw err;
 
-            let courses = [];
+           
+            courses = [];
             // for each row retrieved from the Course list in the db, iterate through to add to our new course variable
             (results).forEach(x => {
                 courses.push(x.courseName);
@@ -272,7 +276,7 @@ app.get('/homepage', function (req, res) {
 /* -- COURSES PAGE ------------------------------------------- */
 app.get('/courses', function(req, res) {
     if (req.session.loggedin) {
-        res.render('courses.html');
+        res.render('courses', {canAddNewMessage});
     }
 });
 
@@ -286,15 +290,31 @@ app.post('/createcourses', function(req, res) {
         // however, if we're specifying STRINGS, then we want to wrap it around quotations ""
             // ex: select * from table where courseName = "CIS400" <--- hence why some have quotes some don't
 
-        pool.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${course}", ${userAccountID})`, function (err, results) {
-            if (err) {
-                console.log(err);
+            let alreadyExists = false;
+
+            courses.forEach(x => {
+                if (x == course)
+                {
+                    alreadyExists = true;
+                    canAddNewMessage = false;
+                }
+            });
+    
+            if (!alreadyExists) {
+                pool.query(`INSERT INTO Courses (courseName, accountID) VALUES ("${course}", ${userAccountID})`, function (err, results) {
+                    if (err) {
+                    console.log(err);
+                    }
+                    else {
+                        console.log("Course Inserted");
+                        canAddNewMessage = true;
+                        res.redirect('/homepage');
+                    }
+                })
             }
             else {
-                console.log("Course Inserted");
-                res.redirect('/homepage');
+                res.redirect('/courses')
             }
-        })
     }
 });
 
@@ -328,7 +348,7 @@ app.post('/getDecks', function(req,res) {
                 res.render('/courses');
             }
             else {
-
+                
                 userCourseID = results[0].courseID;
                 console.log(`User CourseID : ${userCourseID}`);
 
@@ -351,7 +371,7 @@ app.post('/createDecks', function(req, res) {
             if (x == newDeck)
             {
                 alreadyExists = true;
-                canAddNewMessage = false;
+                
             }
         });
 
@@ -522,5 +542,34 @@ app.post('/deletecards', function(req, res) {
 
    
 
+
+/* ----------------------------------------------------------- */
+
+
+
+
+/* -- GAME PAGE ---------------------------------------------- */
+
+app.get('/game', function(req, res) {
+    var randomIndex= Math.floor(Math.random() * cards.length);
+	var cardShuffle = cards[randomIndex];
+    console.log(`Shuffle: ${cardShuffle}`)
+    res.render('game', {cardShuffle});
+});
+
+
+app.post('/shuffle', function(req, res) {
+	let answer = req.body.answer
+    let result = cards.map(e => e.toLocaleLowerCase()).includes(answer);
+
+    let selectedGameCards = {};
+
+	if (cardShuffle.contains(answer) && answer.toLowerCase() ){
+		res.send('Correct')
+	} else {
+		res.send('Wrog') 
+	}
+    res.redirect('/cards')
+})
 
 /* ----------------------------------------------------------- */
