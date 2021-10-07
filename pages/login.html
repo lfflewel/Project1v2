@@ -50,7 +50,9 @@
                 
                 </div>
                 <form action="/register" method="post">
-                    
+                    <% if (!canAddNewMessage2){ %>
+                        <p style="color:green;">You have signed up sucessfully.</p>
+                    <% } %>
                     <input type="text" name="firstname" class="input-box" placeholder="First Name">
                     <input type="text" name="lastname" class="input-box" placeholder="Last Name">
                     <input type="text" name="username" class="input-box" placeholder="User Name">
