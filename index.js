@@ -547,29 +547,3 @@ app.post('/deletecards', function(req, res) {
 
 
 
-
-/* -- GAME PAGE ---------------------------------------------- */
-
-app.get('/game', function(req, res) {
-    var randomIndex= Math.floor(Math.random() * cards.length);
-	var cardShuffle = cards[randomIndex];
-    console.log(`Shuffle: ${cardShuffle}`)
-    res.render('game', {cardShuffle});
-});
-
-
-app.post('/shuffle', function(req, res) {
-	let answer = req.body.answer
-    let result = cards.map(e => e.toLocaleLowerCase()).includes(answer);
-
-    let selectedGameCards = {};
-
-	if (cardShuffle.contains(answer) && answer.toLowerCase() ){
-		res.send('Correct')
-	} else {
-		res.send('Wrog') 
-	}
-    res.redirect('/cards')
-})
-
-/* ----------------------------------------------------------- */
